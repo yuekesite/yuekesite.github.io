@@ -37,88 +37,40 @@
   }
 
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{
-    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;
-    background:linear-gradient(150deg,var(--bg-a) 0%,var(--bg-b) 100%);
-    background-attachment:fixed;color:var(--text);
-    min-height:100vh;padding:24px 16px 56px;
-    transition:background .35s,color .25s;
-  }
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;background:linear-gradient(150deg,var(--bg-a) 0%,var(--bg-b) 100%);background-attachment:fixed;color:var(--text);min-height:100vh;padding:24px 16px 56px;transition:background .35s,color .25s;}
   .container{max-width:520px;margin:0 auto;}
 
-  /* ── 标题栏 ── */
   .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
   h1{font-size:21px;font-weight:700;letter-spacing:-.3px;color:var(--text);}
-  .theme-btn{
-    width:38px;height:38px;border-radius:50%;
-    border:1.5px solid var(--border);background:var(--card);
-    cursor:pointer;font-size:18px;
-    display:flex;align-items:center;justify-content:center;
-    transition:all .2s;color:var(--text);box-shadow:var(--card-shadow);
-  }
+  .theme-btn{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--text);box-shadow:var(--card-shadow);}
   .theme-btn:hover{transform:scale(1.1);}
 
-  /* ── 模式切换 ── */
-  .mode-bar{
-    display:flex;gap:8px;margin-bottom:10px;
-  }
-  .mode-btn{
-    flex:1;padding:11px 8px;border-radius:14px;border:2px solid var(--border);
-    font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;
-    background:var(--tab-bg);color:var(--sub);
-    backdrop-filter:blur(8px);
-  }
+  /* Mode bar */
+  .mode-bar{display:flex;gap:8px;margin-bottom:10px;}
+  .mode-btn{flex:1;padding:11px 8px;border-radius:14px;border:2px solid var(--border);font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;background:var(--tab-bg);color:var(--sub);backdrop-filter:blur(8px);}
   .mode-btn:hover{border-color:var(--accent);color:var(--text);}
-  .mode-btn.active-vip{
-    background:var(--accent);border-color:var(--accent);
-    color:#fff;box-shadow:0 3px 12px rgba(0,113,227,0.35);
-  }
-  .mode-btn.active-bz{
-    background:var(--bz-color);border-color:var(--bz-color);
-    color:#fff;box-shadow:0 3px 12px rgba(124,58,237,0.35);
-  }
+  .mode-btn.active-vip{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 3px 12px rgba(0,113,227,0.35);}
+  .mode-btn.active-bz{background:var(--bz-color);border-color:var(--bz-color);color:#fff;box-shadow:0 3px 12px rgba(124,58,237,0.35);}
 
-  /* ── Tab 栏 ── */
-  .tab-bar{
-    display:flex;gap:5px;background:var(--tab-bg);
-    border-radius:14px;padding:5px;margin-bottom:16px;
-    backdrop-filter:blur(8px);
-    border:1px solid rgba(255,255,255,0.3);
-  }
+  /* Tab bar */
+  .tab-bar{display:flex;gap:5px;background:var(--tab-bg);border-radius:14px;padding:5px;margin-bottom:16px;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.3);}
   [data-theme="dark"] .tab-bar{border-color:rgba(255,255,255,0.06);}
-  .tab-btn{
-    flex:1;padding:9px 4px;border-radius:10px;border:none;
-    font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;
-    background:transparent;color:var(--sub);white-space:nowrap;
-  }
+  .tab-btn{flex:1;padding:9px 4px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--sub);white-space:nowrap;}
   .tab-btn.active{background:var(--tab-active);color:var(--text);box-shadow:0 1px 6px rgba(0,0,0,0.1);}
   .tab-btn.bz-active{background:var(--bz-color);color:#fff;}
 
-  /* ── Card ── */
-  .card{
-    background:var(--card);border-radius:16px;
-    padding:18px 20px;margin-bottom:10px;
-    box-shadow:var(--card-shadow);
-    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-    border:1px solid rgba(255,255,255,0.45);
-    transition:background .3s,box-shadow .3s;
-  }
+  /* Card */
+  .card{background:var(--card);border-radius:16px;padding:18px 20px;margin-bottom:10px;box-shadow:var(--card-shadow);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.45);transition:background .3s,box-shadow .3s;}
   [data-theme="dark"] .card{border-color:rgba(255,255,255,0.06);}
   .field-label{font-size:11px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;}
   .field-row{display:flex;gap:10px;align-items:center;}
 
-  input{
-    width:100%;border:1.5px solid var(--border);border-radius:10px;
-    padding:10px 12px;font-size:15px;color:var(--text);
-    background:var(--input-bg);outline:none;
-    transition:border-color .15s,background .2s;
-    appearance:none;-webkit-appearance:none;
-  }
-  input:focus{border-color:var(--accent);background:var(--card);}
+  input, select{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-size:15px;color:var(--text);background:var(--input-bg);outline:none;transition:border-color .15s,background .2s;appearance:none;-webkit-appearance:none;}
+  input:focus, select:focus{border-color:var(--accent);background:var(--card);}
   input::placeholder{color:var(--placeholder);}
   .time-sep{font-size:17px;color:var(--sub);flex-shrink:0;}
 
-  /* ── Stepper ── */
+  /* Stepper */
   .people-row{display:flex;align-items:center;gap:12px;}
   .stepper{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;background:var(--input-bg);}
   .stepper button{width:40px;height:40px;border:none;background:transparent;font-size:20px;cursor:pointer;color:var(--accent);display:flex;align-items:center;justify-content:center;transition:background .1s;flex-shrink:0;}
@@ -127,34 +79,22 @@
   .stepper-val{min-width:36px;text-align:center;font-size:16px;font-weight:700;color:var(--text);border-left:1.5px solid var(--border);border-right:1.5px solid var(--border);height:40px;line-height:40px;}
   .people-label{font-size:14px;color:var(--sub);}
 
-  /* ── Tags ── */
+  /* Tags */
   .tags-wrap,.course-tags,.time-tags{display:flex;flex-wrap:wrap;gap:8px;}
   .course-tags{margin-bottom:10px;}
   .time-tags{margin-top:10px;}
-  .tag-btn,.course-tag,.time-tag,.school-tag,.attend-tag,.content-tag{
-    border:1.5px solid var(--border);border-radius:20px;
-    padding:7px 14px;font-size:13px;cursor:pointer;
-    background:var(--tag-bg);color:var(--sub);
-    transition:all .15s;user-select:none;
-  }
-  .tag-btn:hover,.course-tag:hover,.time-tag:hover,.school-tag:hover,.attend-tag:hover,.content-tag:hover{border-color:var(--accent);color:var(--accent);}
+  .tag-btn,.course-tag,.time-tag,.school-tag,.attend-tag,.content-tag,.mode-tag{border:1.5px solid var(--border);border-radius:20px;padding:7px 14px;font-size:13px;cursor:pointer;background:var(--tag-bg);color:var(--sub);transition:all .15s;user-select:none;}
+  .tag-btn:hover,.course-tag:hover,.time-tag:hover,.school-tag:hover,.attend-tag:hover,.content-tag:hover,.mode-tag:hover{border-color:var(--accent);color:var(--accent);}
   .tag-btn.active,.course-tag.active,.time-tag.active,.school-tag.active,.attend-tag.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-  /* 班主任 tag 选中色 */
-  .content-tag.active{background:var(--bz-color);border-color:var(--bz-color);color:#fff;}
+  .content-tag.active,.mode-tag.active{background:var(--bz-color);border-color:var(--bz-color);color:#fff;}
 
-  /* ── Output ── */
-  .output-box{
-    background:var(--out-bg);border:1.5px solid var(--border);
-    border-radius:12px;padding:14px 16px;
-    font-size:15px;line-height:1.85;
-    white-space:pre-wrap;word-break:break-all;
-    min-height:80px;color:var(--text);transition:background .3s;
-  }
+  /* Output */
+  .output-box{background:var(--out-bg);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;font-size:15px;line-height:1.85;white-space:pre-wrap;word-break:break-all;min-height:80px;color:var(--text);transition:background .3s;}
   .output-box.mono{font-family:"SF Mono","Menlo","Courier New",monospace;font-size:14px;}
   .output-placeholder{color:var(--placeholder);font-size:14px;font-family:inherit;}
   .output-sub-label{font-size:12px;font-weight:700;color:var(--sub);margin-bottom:7px;margin-top:4px;}
 
-  /* ── Buttons ── */
+  /* Buttons */
   .btn-row{display:flex;gap:10px;margin-top:12px;}
   .btn{flex:1;padding:12px 0;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;border:none;transition:opacity .15s,transform .1s;display:flex;align-items:center;justify-content:center;gap:5px;}
   .btn:active{opacity:.8;transform:scale(.97);}
@@ -164,7 +104,7 @@
   .btn-clear{background:var(--clear-bg);color:var(--clear-color);}
   .btn-copy.copied{filter:brightness(.85);}
 
-  /* ── Print specifics ── */
+  /* Print */
   .p-settings-row{display:flex;gap:20px;}
   .p-setting-col{flex:1;}
   .p-setting-label{font-size:12px;color:var(--sub);margin-bottom:8px;font-weight:600;}
@@ -172,45 +112,64 @@
   .p-file-item:last-child{margin-bottom:0;}
   .p-file-num{font-size:13px;color:var(--sub);flex-shrink:0;width:22px;font-weight:700;}
 
-  /* ── Section ── */
+  /* ── 面谈预约 ── */
+  .a-week-info{font-size:13px;color:var(--bz-color);font-weight:600;margin-top:8px;}
+
+  .a-day-card{margin-bottom:10px;}
+  .a-day-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0;}
+  .a-day-meta{display:flex;align-items:baseline;gap:6px;}
+  .a-day-name{font-size:16px;font-weight:700;}
+  .a-day-date{font-size:13px;color:var(--sub);}
+  .a-day-count{font-size:12px;color:var(--bz-color);font-weight:700;}
+  .a-expand-btn{font-size:13px;font-weight:600;padding:6px 12px;border-radius:8px;border:1.5px solid var(--bz-color);color:var(--bz-color);background:transparent;cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0;}
+  .a-expand-btn:hover,.a-expand-btn.open{background:var(--bz-color);color:#fff;}
+
+  .a-slot-list{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+  .a-slot-item{display:flex;align-items:center;justify-content:space-between;background:var(--tag-bg);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;font-size:14px;color:var(--text);}
+  .a-slot-del{background:none;border:none;color:var(--placeholder);cursor:pointer;font-size:18px;line-height:1;padding:0 2px;transition:color .15s;flex-shrink:0;}
+  .a-slot-del:hover{color:#e53e3e;}
+
+  .a-add-area{border-top:1px solid var(--border);padding-top:12px;margin-top:12px;}
+  .a-add-label{font-size:11px;font-weight:700;color:var(--sub);letter-spacing:.5px;margin-bottom:7px;}
+  .a-quick-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .a-quick-btn{font-size:12px;padding:5px 9px;border-radius:16px;border:1.5px solid var(--bz-color);color:var(--bz-color);background:transparent;cursor:pointer;transition:all .15s;white-space:nowrap;}
+  .a-quick-btn:hover{background:var(--bz-color);color:#fff;}
+  .a-custom-row{display:flex;gap:8px;align-items:center;}
+  .a-dur-sel{border:1.5px solid var(--border);border-radius:10px;padding:10px 8px;font-size:14px;color:var(--text);background:var(--input-bg);outline:none;width:76px;flex-shrink:0;cursor:pointer;}
+  .a-dur-sel:focus{border-color:var(--bz-color);}
+  .a-do-add{padding:10px 14px;border-radius:10px;font-size:14px;font-weight:600;background:var(--bz-color);color:#fff;border:none;cursor:pointer;flex-shrink:0;}
+  .a-do-add:active{opacity:.8;}
+
+  /* Section */
   .section{display:none;}
   .section.active{display:block;}
 
-  /* ── Toast ── */
+  /* Toast */
   .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--toast-bg);color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;opacity:0;transition:all .25s;pointer-events:none;z-index:999;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-  @media(max-width:400px){
-    h1{font-size:18px;}
-    .btn{font-size:13px;padding:11px 0;}
-    .tab-btn{font-size:12px;}
-    .mode-btn{font-size:13px;}
-  }
+  @media(max-width:400px){h1{font-size:18px;}.btn{font-size:13px;padding:11px 0;}.tab-btn{font-size:11px;}.mode-btn{font-size:13px;}}
 </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- 标题栏 -->
   <div class="header">
     <h1>约课 · 教室 · 打印</h1>
     <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
   </div>
 
-  <!-- 模式切换 -->
   <div class="mode-bar">
     <button class="mode-btn" id="mode-vip" onclick="switchMode('vip')">📚 VIP</button>
     <button class="mode-btn" id="mode-bz"  onclick="switchMode('bz')">🏫 班主任</button>
   </div>
 
-  <!-- Tab 栏 -->
   <div class="tab-bar" id="tabBar">
-    <!-- VIP tabs -->
     <button class="tab-btn vip-tab" id="tab-book"    onclick="switchTab('book')">📋 约课预约</button>
     <button class="tab-btn vip-tab" id="tab-notify"  onclick="switchTab('notify')">🔔 教室提醒</button>
     <button class="tab-btn vip-tab" id="tab-print"   onclick="switchTab('print')">🖨️ 打印资料</button>
-    <!-- 班主任 tabs -->
     <button class="tab-btn bz-tab"  id="tab-checkin" onclick="switchTab('checkin')">✅ 出席打卡</button>
+    <button class="tab-btn bz-tab"  id="tab-appt"    onclick="switchTab('appt')">📅 面谈预约</button>
   </div>
 
   <!-- ══ VIP: 约课预约 ══ -->
@@ -218,113 +177,54 @@
     <div class="card"><div class="field-label">日期</div><input type="date" id="b-date"></div>
     <div class="card">
       <div class="field-label">时间</div>
-      <div class="field-row">
-        <input type="time" id="b-start" value="14:00" oninput="bOnStartChange()">
-        <span class="time-sep">—</span>
-        <input type="time" id="b-end" value="16:00">
-      </div>
+      <div class="field-row"><input type="time" id="b-start" value="14:00" oninput="bOnStartChange()"><span class="time-sep">—</span><input type="time" id="b-end" value="16:00"></div>
       <div class="time-tags" id="b-timeTags"></div>
     </div>
     <div class="card">
       <div class="field-label">人数</div>
-      <div class="people-row">
-        <div class="stepper">
-          <button onclick="changePeople(-1)">−</button>
-          <div class="stepper-val" id="b-peopleVal">2</div>
-          <button onclick="changePeople(1)">＋</button>
-        </div>
-        <span class="people-label">人</span>
-      </div>
+      <div class="people-row"><div class="stepper"><button onclick="changePeople(-1)">−</button><div class="stepper-val" id="b-peopleVal">2</div><button onclick="changePeople(1)">＋</button></div><span class="people-label">人</span></div>
     </div>
-    <div class="card">
-      <div class="field-label">课程内容</div>
-      <div class="course-tags" id="b-courseTags"></div>
-      <input type="text" id="b-course" placeholder="其他（手动输入）">
-    </div>
+    <div class="card"><div class="field-label">课程内容</div><div class="course-tags" id="b-courseTags"></div><input type="text" id="b-course" placeholder="其他（手动输入）"></div>
     <div class="card"><div class="field-label">姓名</div><input type="text" id="b-name" placeholder="请输入姓名"></div>
     <div class="card"><div class="field-label">附加要求（可多选）</div><div class="tags-wrap" id="b-reqTags"></div></div>
     <div class="card"><div class="field-label">备注（可选）</div><input type="text" id="b-remark" placeholder="其他补充说明…"></div>
     <div class="card">
       <div class="field-label">生成文本</div>
       <div class="output-box" id="b-output"><span class="output-placeholder">点击「生成」查看结果</span></div>
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="bGenerate()">生成</button>
-        <button class="btn btn-copy" id="b-copyBtn" onclick="bCopy()">复制</button>
-        <button class="btn btn-clear" onclick="bClear()">清空</button>
-      </div>
+      <div class="btn-row"><button class="btn btn-primary" onclick="bGenerate()">生成</button><button class="btn btn-copy" id="b-copyBtn" onclick="bCopy()">复制</button><button class="btn btn-clear" onclick="bClear()">清空</button></div>
     </div>
   </div>
 
   <!-- ══ VIP: 教室提醒 ══ -->
   <div class="section" id="sec-notify">
     <div class="card"><div class="field-label">学生姓名</div><input type="text" id="n-name" placeholder="例：王晨"></div>
-    <div class="card">
-      <div class="field-label">课程类型</div>
-      <div class="course-tags" id="n-courseTags"></div>
-      <input type="text" id="n-course" placeholder="其他（手动输入）">
-    </div>
+    <div class="card"><div class="field-label">课程类型</div><div class="course-tags" id="n-courseTags"></div><input type="text" id="n-course" placeholder="其他（手动输入）"></div>
     <div class="card"><div class="field-label">日期</div><input type="date" id="n-date"></div>
     <div class="card">
       <div class="field-label">时间</div>
-      <div class="field-row">
-        <input type="time" id="n-start" value="14:00" oninput="nOnStartChange()">
-        <span class="time-sep">—</span>
-        <input type="time" id="n-end" value="16:00">
-      </div>
+      <div class="field-row"><input type="time" id="n-start" value="14:00" oninput="nOnStartChange()"><span class="time-sep">—</span><input type="time" id="n-end" value="16:00"></div>
       <div class="time-tags" id="n-timeTags"></div>
     </div>
     <div class="card"><div class="field-label">教室</div><input type="text" id="n-room" placeholder="例：304"></div>
     <div class="card">
       <div class="field-label">生成提醒</div>
       <div class="output-box mono" id="n-output"><span class="output-placeholder">点击「生成」查看结果</span></div>
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="nGenerate()">生成</button>
-        <button class="btn btn-copy" id="n-copyBtn" onclick="nCopy()">复制</button>
-        <button class="btn btn-clear" onclick="nClear()">清空</button>
-      </div>
+      <div class="btn-row"><button class="btn btn-primary" onclick="nGenerate()">生成</button><button class="btn btn-copy" id="n-copyBtn" onclick="nCopy()">复制</button><button class="btn btn-clear" onclick="nClear()">清空</button></div>
     </div>
   </div>
 
   <!-- ══ VIP: 打印资料 ══ -->
   <div class="section" id="sec-print">
     <div class="card"><div class="field-label">姓名</div><input type="text" id="p-name" placeholder="请输入姓名（用于文件名及落款）"></div>
-    <div class="card">
-      <div class="field-label">课程类型</div>
-      <div class="course-tags" id="p-courseTags"></div>
-      <input type="text" id="p-course" placeholder="其他（手动输入）">
-    </div>
+    <div class="card"><div class="field-label">课程类型</div><div class="course-tags" id="p-courseTags"></div><input type="text" id="p-course" placeholder="其他（手动输入）"></div>
     <div class="card"><div class="field-label">日期</div><input type="date" id="p-date"></div>
     <div class="card"><div class="field-label">班级</div><input type="text" id="p-class" placeholder="例：文科理科线下基础班"></div>
-    <div class="card">
-      <div class="field-label">校区 &amp; 教室号</div>
-      <div class="tags-wrap" id="p-schoolTags" style="margin-bottom:10px;"></div>
-      <input type="text" id="p-room" placeholder="教室号，例：501">
-    </div>
+    <div class="card"><div class="field-label">校区 &amp; 教室号</div><div class="tags-wrap" id="p-schoolTags" style="margin-bottom:10px;"></div><input type="text" id="p-room" placeholder="教室号，例：501"></div>
     <div class="card">
       <div class="field-label">打印设置</div>
       <div class="p-settings-row">
-        <div class="p-setting-col">
-          <div class="p-setting-label">文件数量</div>
-          <div class="people-row">
-            <div class="stepper">
-              <button onclick="pChangeFileCount(-1)">−</button>
-              <div class="stepper-val" id="p-fileCountVal">1</div>
-              <button onclick="pChangeFileCount(1)">＋</button>
-            </div>
-            <span class="people-label">个</span>
-          </div>
-        </div>
-        <div class="p-setting-col">
-          <div class="p-setting-label">打印份数</div>
-          <div class="people-row">
-            <div class="stepper">
-              <button onclick="pChangeCopies(-1)">−</button>
-              <div class="stepper-val" id="p-copiesVal">10</div>
-              <button onclick="pChangeCopies(1)">＋</button>
-            </div>
-            <span class="people-label">份</span>
-          </div>
-        </div>
+        <div class="p-setting-col"><div class="p-setting-label">文件数量</div><div class="people-row"><div class="stepper"><button onclick="pChangeFileCount(-1)">−</button><div class="stepper-val" id="p-fileCountVal">1</div><button onclick="pChangeFileCount(1)">＋</button></div><span class="people-label">个</span></div></div>
+        <div class="p-setting-col"><div class="p-setting-label">打印份数</div><div class="people-row"><div class="stepper"><button onclick="pChangeCopies(-1)">−</button><div class="stepper-val" id="p-copiesVal">10</div><button onclick="pChangeCopies(1)">＋</button></div><span class="people-label">份</span></div></div>
       </div>
     </div>
     <div class="card"><div class="field-label">文件名称</div><div id="p-fileInputs"></div></div>
@@ -336,47 +236,62 @@
       <div class="output-sub-label">📧 邮件正文</div>
       <div class="output-box" id="p-emailOutput"><span class="output-placeholder">点击「生成」查看结果</span></div>
       <div class="btn-row" style="margin-bottom:14px;"><button class="btn btn-copy" id="p-emailCopyBtn" onclick="pCopyEmail()">复制邮件</button></div>
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="pGenerate()">生成</button>
-        <button class="btn btn-clear" onclick="pClear()">清空</button>
-      </div>
+      <div class="btn-row"><button class="btn btn-primary" onclick="pGenerate()">生成</button><button class="btn btn-clear" onclick="pClear()">清空</button></div>
     </div>
   </div>
 
-  <!-- ══ 班主任: 正常出席打卡 ══ -->
+  <!-- ══ 班主任: 出席打卡 ══ -->
   <div class="section" id="sec-checkin">
-
     <div class="card"><div class="field-label">日期</div><input type="date" id="c-date"></div>
-
     <div class="card">
       <div class="field-label">时间</div>
-      <div class="field-row">
-        <input type="time" id="c-start" value="17:00" oninput="cOnStartChange()">
-        <span class="time-sep">—</span>
-        <input type="time" id="c-end" value="18:30">
-      </div>
+      <div class="field-row"><input type="time" id="c-start" value="17:00" oninput="cOnStartChange()"><span class="time-sep">—</span><input type="time" id="c-end" value="18:30"></div>
       <div class="time-tags" id="c-timeTags"></div>
     </div>
-
     <div class="card">
       <div class="field-label">学生</div>
       <input type="text" id="c-student" placeholder="请输入学生姓名" style="margin-bottom:10px;">
       <div class="tags-wrap" id="c-attendTags"></div>
     </div>
-
     <div class="card">
       <div class="field-label">面谈内容（可多选）</div>
       <div class="tags-wrap" id="c-contentTags" style="margin-bottom:10px;"></div>
       <input type="text" id="c-content" placeholder="其他（手动输入）">
     </div>
-
     <div class="card">
       <div class="field-label">生成文本</div>
       <div class="output-box mono" id="c-output"><span class="output-placeholder">点击「生成」查看结果</span></div>
+      <div class="btn-row"><button class="btn btn-primary-bz" onclick="cGenerate()">生成</button><button class="btn btn-copy" id="c-copyBtn" onclick="cCopy()">复制</button><button class="btn btn-clear" onclick="cClear()">清空</button></div>
+    </div>
+  </div>
+
+  <!-- ══ 班主任: 面谈预约表 ══ -->
+  <div class="section" id="sec-appt">
+
+    <!-- 面谈形式 -->
+    <div class="card">
+      <div class="field-label">面谈形式</div>
+      <div class="tags-wrap" id="a-modeTags"></div>
+    </div>
+
+    <!-- 周次 -->
+    <div class="card">
+      <div class="field-label">选择周次（选任意一天自动定位到本周）</div>
+      <input type="date" id="a-weekDate" oninput="aUpdateWeek()">
+      <div class="a-week-info" id="a-weekInfo"></div>
+    </div>
+
+    <!-- 每天时间段（动态渲染） -->
+    <div id="a-daysContainer"></div>
+
+    <!-- 输出 -->
+    <div class="card">
+      <div class="field-label">生成预约表</div>
+      <div class="output-box" id="a-output" style="font-size:13px;line-height:1.75;min-height:160px;"><span class="output-placeholder">点击「生成」查看结果</span></div>
       <div class="btn-row">
-        <button class="btn btn-primary-bz" onclick="cGenerate()">生成</button>
-        <button class="btn btn-copy" id="c-copyBtn" onclick="cCopy()">复制</button>
-        <button class="btn btn-clear" onclick="cClear()">清空</button>
+        <button class="btn btn-primary-bz" onclick="aGenerate()">生成</button>
+        <button class="btn btn-copy" id="a-copyBtn" onclick="aCopy()">复制</button>
+        <button class="btn btn-clear" onclick="aClearSlots()">清空时间段</button>
       </div>
     </div>
 
@@ -386,308 +301,363 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 //  常量
-// ═══════════════════════════════════════
-const WEEKDAYS  = ["日","月","火","水","木","金","土"];
-const COURSES   = ["面谈","VIP","VIP日语","VIP文综","VIP数学"];
-const REQ_TAGS  = ["麻烦想要有空调的教室","麻烦想要大一点的教室","麻烦想要有投影的教室"];
-const DURATIONS = [["1小时",1],["1.5小时",1.5],["2小时",2],["2.5小时",2.5],["3小时",3]];
+// ═══════════════════════════════════════════
+const WEEKDAYS   = ["日","月","火","水","木","金","土"];
+const COURSES    = ["面谈","VIP","VIP日语","VIP文综","VIP数学"];
+const REQ_TAGS   = ["麻烦想要有空调的教室","麻烦想要大一点的教室","麻烦想要有投影的教室"];
+const DURATIONS  = [["1小时",1],["1.5小时",1.5],["2小时",2],["2.5小时",2.5],["3小时",3]];
 const PRINT_COURSES = ["EJU日语","EJU文综","EJU数学","VIP日语","VIP文综","VIP数学","面谈"];
-const SCHOOLS  = ["精英校区","KS校区"];
-const CN_NUM   = ["","一","两","三","四","五","六","七","八","九","十"];
+const SCHOOLS    = ["精英校区","KS校区"];
+const CN_NUM     = ["","一","两","三","四","五","六","七","八","九","十"];
 const ATTEND_TAGS   = ["线上","线下"];
 const CONTENT_TAGS  = ["大学介绍","课上习题","出願","听写","志望理由书说明"];
+const DAYS_JA    = ["月","火","水","木","金","土","日"]; // Mon-Sun index 0-6
+// Quick add times for appointment schedule
+const QUICK_TIMES = ["13:00","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","21:00","21:30"];
 
-// ═══════════════════════════════════════
-//  模式 & Tab 状态
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
+//  模式 & Tab
+// ═══════════════════════════════════════════
 let activeMode = "vip";
 
 function switchMode(mode) {
   activeMode = mode;
-  // 模式按钮样式
-  document.getElementById("mode-vip").className = "mode-btn" + (mode==="vip"?" active-vip":"");
-  document.getElementById("mode-bz").className  = "mode-btn" + (mode==="bz" ?" active-bz" :"");
-  // 显示/隐藏 tab 按钮
-  document.querySelectorAll(".vip-tab").forEach(b=>b.style.display=mode==="vip"?"flex":"none");
-  document.querySelectorAll(".bz-tab") .forEach(b=>b.style.display=mode==="bz" ?"flex":"none");
-  // 跳到该模式第一个 tab
-  switchTab(mode==="vip"?"book":"checkin");
+  document.getElementById("mode-vip").className = "mode-btn" + (mode==="vip" ? " active-vip" : "");
+  document.getElementById("mode-bz").className  = "mode-btn" + (mode==="bz"  ? " active-bz"  : "");
+  document.querySelectorAll(".vip-tab").forEach(b => b.style.display = mode==="vip" ? "flex" : "none");
+  document.querySelectorAll(".bz-tab") .forEach(b => b.style.display = mode==="bz"  ? "flex" : "none");
+  switchTab(mode==="vip" ? "book" : "checkin");
   localStorage.setItem("activeMode", mode);
 }
 
 function switchTab(tab) {
-  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-  document.querySelectorAll(".tab-btn").forEach(b=>{b.classList.remove("active");b.classList.remove("bz-active");});
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => { b.classList.remove("active"); b.classList.remove("bz-active"); });
   document.getElementById("sec-"+tab).classList.add("active");
-  const tabBtn = document.getElementById("tab-"+tab);
-  tabBtn.classList.add(activeMode==="bz"?"bz-active":"active");
+  document.getElementById("tab-"+tab).classList.add(activeMode==="bz" ? "bz-active" : "active");
   localStorage.setItem("activeTab", tab);
 }
 
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 //  工具
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 function todayValue(){const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;}
 function pad(n){return String(n).padStart(2,"0");}
 function fmtDateJa(s){if(!s)return "";const d=new Date(s+"T00:00:00");return `${d.getMonth()+1}月${d.getDate()}日（${WEEKDAYS[d.getDay()]}）`;}
 function fmtDateShort(s){if(!s)return "";const d=new Date(s+"T00:00:00");return `${d.getMonth()+1}月${d.getDate()}日`;}
 function fmtDateNotify(s){if(!s)return "";const d=new Date(s+"T00:00:00");return `${d.getFullYear()} ${pad(d.getMonth()+1)} ${pad(d.getDate())} （${WEEKDAYS[d.getDay()]}）`;}
 function calcEndTime(startVal,hours){if(!startVal)return "";const[h,m]=startVal.split(":").map(Number);const t=h*60+m+hours*60;return `${pad(Math.floor(t/60)%24)}:${pad(t%60)}`;}
-function calcDuration(start,end){
-  if(!start||!end)return "";
-  const[sh,sm]=start.split(":").map(Number);
-  const[eh,em]=end.split(":").map(Number);
-  const mins=(eh*60+em)-(sh*60+sm);
-  if(mins<=0)return "";
-  const h=mins/60;
-  return Number.isInteger(h)?`${h}h`:`${h}h`;
-}
+function calcDuration(start,end){if(!start||!end)return "";const[sh,sm]=start.split(":").map(Number);const[eh,em]=end.split(":").map(Number);const mins=(eh*60+em)-(sh*60+sm);if(mins<=0)return "";const h=mins/60;return Number.isInteger(h)?`${h}h`:`${h}h`;}
 function mkBtn(cls,text,onclick){const b=document.createElement("button");b.className=cls;b.textContent=text;b.onclick=onclick;return b;}
 
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 //  初始化
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 function init(){
-  // 约课
   document.getElementById("b-date").value=todayValue();
   DURATIONS.forEach(([l,h])=>{const b=mkBtn("time-tag",l,()=>bSelectDuration(h,b));b.dataset.hours=h;document.getElementById("b-timeTags").appendChild(b);});
   COURSES.forEach(c=>{const b=mkBtn("course-tag",c,()=>bSelectCourse(c,b));document.getElementById("b-courseTags").appendChild(b);});
   document.getElementById("b-course").addEventListener("input",()=>{bActiveCourse="";document.querySelectorAll("#b-courseTags .course-tag").forEach(b=>b.classList.remove("active"));});
   REQ_TAGS.forEach(t=>{const b=mkBtn("tag-btn",t,()=>bToggleReq(t,b));document.getElementById("b-reqTags").appendChild(b);});
 
-  // 教室提醒
   document.getElementById("n-date").value=todayValue();
   DURATIONS.forEach(([l,h])=>{const b=mkBtn("time-tag",l,()=>nSelectDuration(h,b));b.dataset.hours=h;document.getElementById("n-timeTags").appendChild(b);});
   COURSES.forEach(c=>{const b=mkBtn("course-tag",c,()=>nSelectCourse(c,b));document.getElementById("n-courseTags").appendChild(b);});
   document.getElementById("n-course").addEventListener("input",()=>{nActiveCourse="";document.querySelectorAll("#n-courseTags .course-tag").forEach(b=>b.classList.remove("active"));});
 
-  // 打印
   document.getElementById("p-date").value=todayValue();
   PRINT_COURSES.forEach(c=>{const b=mkBtn("course-tag",c,()=>pSelectCourse(c,b));document.getElementById("p-courseTags").appendChild(b);});
   document.getElementById("p-course").addEventListener("input",()=>{pActiveCourse="";document.querySelectorAll("#p-courseTags .course-tag").forEach(b=>b.classList.remove("active"));});
   SCHOOLS.forEach(s=>{const b=mkBtn("school-tag",s,()=>pSelectSchool(s,b));document.getElementById("p-schoolTags").appendChild(b);});
   renderFileInputs();
 
-  // 出席打卡
   document.getElementById("c-date").value=todayValue();
   DURATIONS.forEach(([l,h])=>{const b=mkBtn("time-tag",l,()=>cSelectDuration(h,b));b.dataset.hours=h;document.getElementById("c-timeTags").appendChild(b);});
   ATTEND_TAGS.forEach(t=>{const b=mkBtn("attend-tag",t,()=>cSelectAttend(t,b));document.getElementById("c-attendTags").appendChild(b);});
   CONTENT_TAGS.forEach(t=>{const b=mkBtn("content-tag",t,()=>cToggleContent(t,b));document.getElementById("c-contentTags").appendChild(b);});
-  document.getElementById("c-content").addEventListener("input",()=>{
-    cActiveContents.clear();
-    document.querySelectorAll("#c-contentTags .content-tag").forEach(b=>b.classList.remove("active"));
-  });
+  document.getElementById("c-content").addEventListener("input",()=>{cActiveContents.clear();document.querySelectorAll("#c-contentTags .content-tag").forEach(b=>b.classList.remove("active"));});
 
-  // 恢复
+  // 面谈预约 mode tags
+  ["线上","线下"].forEach(m=>{
+    const b=mkBtn("mode-tag",m,()=>aSelectMode(m,b));
+    if(m===aMode)b.classList.add("active");
+    document.getElementById("a-modeTags").appendChild(b);
+  });
+  document.getElementById("a-weekDate").value = todayValue();
+  aUpdateWeek();
+
   applyTheme(localStorage.getItem("theme")||"light");
-  const savedMode=localStorage.getItem("activeMode")||"vip";
-  switchMode(savedMode);
-  bRestoreState();nRestoreState();pRestoreState();cRestoreState();
+  switchMode(localStorage.getItem("activeMode")||"vip");
+  bRestoreState();nRestoreState();pRestoreState();cRestoreState();aRestoreState();
 }
 
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 //  约课
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 let bPeople=2,bActiveCourse="",bActiveDuration=null,bActiveTags=new Set(),bText="";
 function changePeople(d){bPeople=Math.max(1,Math.min(20,bPeople+d));document.getElementById("b-peopleVal").textContent=bPeople;}
-function bSelectDuration(h,btn){
-  if(bActiveDuration===h){bActiveDuration=null;btn.classList.remove("active");}
-  else{bActiveDuration=h;document.querySelectorAll("#b-timeTags .time-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("b-end").value=calcEndTime(document.getElementById("b-start").value,h);}
-}
+function bSelectDuration(h,btn){if(bActiveDuration===h){bActiveDuration=null;btn.classList.remove("active");}else{bActiveDuration=h;document.querySelectorAll("#b-timeTags .time-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("b-end").value=calcEndTime(document.getElementById("b-start").value,h);}}
 function bOnStartChange(){if(bActiveDuration!==null)document.getElementById("b-end").value=calcEndTime(document.getElementById("b-start").value,bActiveDuration);}
-function bSelectCourse(c,btn){
-  if(bActiveCourse===c){bActiveCourse="";btn.classList.remove("active");}
-  else{bActiveCourse=c;document.querySelectorAll("#b-courseTags .course-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("b-course").value="";}
-}
+function bSelectCourse(c,btn){if(bActiveCourse===c){bActiveCourse="";btn.classList.remove("active");}else{bActiveCourse=c;document.querySelectorAll("#b-courseTags .course-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("b-course").value="";}}
 function bToggleReq(tag,btn){if(bActiveTags.has(tag)){bActiveTags.delete(tag);btn.classList.remove("active");}else{bActiveTags.add(tag);btn.classList.add("active");}}
-function bGenerate(){
-  const date=document.getElementById("b-date").value,start=document.getElementById("b-start").value,end=document.getElementById("b-end").value;
-  const course=bActiveCourse||document.getElementById("b-course").value.trim();
-  const name=document.getElementById("b-name").value.trim(),remark=document.getElementById("b-remark").value.trim();
-  const tagStr=bActiveTags.size?`（${[...bActiveTags].join("、")}）`:"";
-  const lines=[`教务老师您好，想要预约一下教室${tagStr}`];
-  if(date)lines.push(`日期：${fmtDateJa(date)}`);
-  if(start&&end)lines.push(`时间：${start}-${end}`);
-  lines.push(`人数：${bPeople}人`);
-  if(course)lines.push(`内容：${course}`);
-  if(name)lines.push(`姓名：${name}`);
-  if(remark)lines.push(`备注：${remark}`);
-  bText=lines.join("\n");document.getElementById("b-output").textContent=bText;bSaveState();
-}
+function bGenerate(){const date=document.getElementById("b-date").value,start=document.getElementById("b-start").value,end=document.getElementById("b-end").value,course=bActiveCourse||document.getElementById("b-course").value.trim(),name=document.getElementById("b-name").value.trim(),remark=document.getElementById("b-remark").value.trim(),tagStr=bActiveTags.size?`（${[...bActiveTags].join("、")}）`:"";const lines=[`教务老师您好，想要预约一下教室${tagStr}`];if(date)lines.push(`日期：${fmtDateJa(date)}`);if(start&&end)lines.push(`时间：${start}-${end}`);lines.push(`人数：${bPeople}人`);if(course)lines.push(`内容：${course}`);if(name)lines.push(`姓名：${name}`);if(remark)lines.push(`备注：${remark}`);bText=lines.join("\n");document.getElementById("b-output").textContent=bText;bSaveState();}
 async function bCopy(){if(!bText){showToast("请先点击「生成」");return;}await doCopy(bText,"b-copyBtn");}
-function bClear(){
-  document.getElementById("b-date").value=todayValue();document.getElementById("b-start").value="14:00";document.getElementById("b-end").value="16:00";
-  ["b-course","b-name","b-remark"].forEach(id=>document.getElementById(id).value="");
-  bPeople=2;document.getElementById("b-peopleVal").textContent="2";bActiveTags.clear();bActiveCourse="";bActiveDuration=null;
-  document.querySelectorAll("#b-reqTags .tag-btn,#b-courseTags .course-tag,#b-timeTags .time-tag").forEach(b=>b.classList.remove("active"));
-  bText="";document.getElementById("b-output").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';localStorage.removeItem("b_state");showToast("已清空");
-}
+function bClear(){document.getElementById("b-date").value=todayValue();document.getElementById("b-start").value="14:00";document.getElementById("b-end").value="16:00";["b-course","b-name","b-remark"].forEach(id=>document.getElementById(id).value="");bPeople=2;document.getElementById("b-peopleVal").textContent="2";bActiveTags.clear();bActiveCourse="";bActiveDuration=null;document.querySelectorAll("#b-reqTags .tag-btn,#b-courseTags .course-tag,#b-timeTags .time-tag").forEach(b=>b.classList.remove("active"));bText="";document.getElementById("b-output").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';localStorage.removeItem("b_state");showToast("已清空");}
 function bSaveState(){localStorage.setItem("b_state",JSON.stringify({date:document.getElementById("b-date").value,start:document.getElementById("b-start").value,end:document.getElementById("b-end").value,course:document.getElementById("b-course").value,bActiveCourse,bActiveDuration,name:document.getElementById("b-name").value,remark:document.getElementById("b-remark").value,bPeople,tags:[...bActiveTags]}));}
-function bRestoreState(){
-  const raw=localStorage.getItem("b_state")||localStorage.getItem("booking_state");if(!raw)return;
-  try{const s=JSON.parse(raw);
-    if(s.date)document.getElementById("b-date").value=s.date;if(s.start)document.getElementById("b-start").value=s.start;if(s.end)document.getElementById("b-end").value=s.end;if(s.course)document.getElementById("b-course").value=s.course;
-    const ac=s.bActiveCourse||s.activeCourse;if(ac){bActiveCourse=ac;document.querySelectorAll("#b-courseTags .course-tag").forEach(b=>{if(b.textContent===ac)b.classList.add("active");});}
-    const ad=s.bActiveDuration??s.activeDuration;if(ad!=null){bActiveDuration=ad;document.querySelectorAll("#b-timeTags .time-tag").forEach(b=>{if(Number(b.dataset.hours)===ad)b.classList.add("active");});}
-    if(s.name)document.getElementById("b-name").value=s.name;if(s.remark)document.getElementById("b-remark").value=s.remark;
-    const bp=s.bPeople||s.people;if(bp){bPeople=bp;document.getElementById("b-peopleVal").textContent=bPeople;}
-    if(s.tags)s.tags.forEach(tag=>{bActiveTags.add(tag);document.querySelectorAll("#b-reqTags .tag-btn").forEach(b=>{if(b.textContent===tag)b.classList.add("active");});});
-  }catch{}
-}
+function bRestoreState(){const raw=localStorage.getItem("b_state")||localStorage.getItem("booking_state");if(!raw)return;try{const s=JSON.parse(raw);if(s.date)document.getElementById("b-date").value=s.date;if(s.start)document.getElementById("b-start").value=s.start;if(s.end)document.getElementById("b-end").value=s.end;if(s.course)document.getElementById("b-course").value=s.course;const ac=s.bActiveCourse||s.activeCourse;if(ac){bActiveCourse=ac;document.querySelectorAll("#b-courseTags .course-tag").forEach(b=>{if(b.textContent===ac)b.classList.add("active");});}const ad=s.bActiveDuration??s.activeDuration;if(ad!=null){bActiveDuration=ad;document.querySelectorAll("#b-timeTags .time-tag").forEach(b=>{if(Number(b.dataset.hours)===ad)b.classList.add("active");});}if(s.name)document.getElementById("b-name").value=s.name;if(s.remark)document.getElementById("b-remark").value=s.remark;const bp=s.bPeople||s.people;if(bp){bPeople=bp;document.getElementById("b-peopleVal").textContent=bPeople;}if(s.tags)s.tags.forEach(tag=>{bActiveTags.add(tag);document.querySelectorAll("#b-reqTags .tag-btn").forEach(b=>{if(b.textContent===tag)b.classList.add("active");});});}catch{}}
 
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 //  教室提醒
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 let nActiveCourse="",nActiveDuration=null,nText="";
 function nSelectDuration(h,btn){if(nActiveDuration===h){nActiveDuration=null;btn.classList.remove("active");}else{nActiveDuration=h;document.querySelectorAll("#n-timeTags .time-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("n-end").value=calcEndTime(document.getElementById("n-start").value,h);}}
 function nOnStartChange(){if(nActiveDuration!==null)document.getElementById("n-end").value=calcEndTime(document.getElementById("n-start").value,nActiveDuration);}
 function nSelectCourse(c,btn){if(nActiveCourse===c){nActiveCourse="";btn.classList.remove("active");}else{nActiveCourse=c;document.querySelectorAll("#n-courseTags .course-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("n-course").value="";}}
-function nGenerate(){
-  const name=document.getElementById("n-name").value.trim(),course=nActiveCourse||document.getElementById("n-course").value.trim();
-  const date=document.getElementById("n-date").value,start=document.getElementById("n-start").value,end=document.getElementById("n-end").value,room=document.getElementById("n-room").value.trim();
-  const sep="--------------";
-  nText=[sep,`课程：${name?name+"同学":""}${course?"（"+course+"）":""}`,`时间：${fmtDateNotify(date)}${start&&end?" "+start+"-"+end:""}`,`教室：${room}`,sep].join("\n");
-  document.getElementById("n-output").textContent=nText;nSaveState();
-}
+function nGenerate(){const name=document.getElementById("n-name").value.trim(),course=nActiveCourse||document.getElementById("n-course").value.trim(),date=document.getElementById("n-date").value,start=document.getElementById("n-start").value,end=document.getElementById("n-end").value,room=document.getElementById("n-room").value.trim(),sep="--------------";nText=[sep,`课程：${name?name+"同学":""}${course?"（"+course+"）":""}`,`时间：${fmtDateNotify(date)}${start&&end?" "+start+"-"+end:""}`,`教室：${room}`,sep].join("\n");document.getElementById("n-output").textContent=nText;nSaveState();}
 async function nCopy(){if(!nText){showToast("请先点击「生成」");return;}await doCopy(nText,"n-copyBtn");}
 function nClear(){["n-name","n-course","n-room"].forEach(id=>document.getElementById(id).value="");document.getElementById("n-date").value=todayValue();document.getElementById("n-start").value="14:00";document.getElementById("n-end").value="16:00";nActiveCourse="";nActiveDuration=null;document.querySelectorAll("#n-courseTags .course-tag,#n-timeTags .time-tag").forEach(b=>b.classList.remove("active"));nText="";document.getElementById("n-output").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';localStorage.removeItem("n_state");showToast("已清空");}
 function nSaveState(){localStorage.setItem("n_state",JSON.stringify({name:document.getElementById("n-name").value,course:document.getElementById("n-course").value,nActiveCourse,nActiveDuration,date:document.getElementById("n-date").value,start:document.getElementById("n-start").value,end:document.getElementById("n-end").value,room:document.getElementById("n-room").value}));}
 function nRestoreState(){const raw=localStorage.getItem("n_state");if(!raw)return;try{const s=JSON.parse(raw);if(s.name)document.getElementById("n-name").value=s.name;if(s.course)document.getElementById("n-course").value=s.course;if(s.nActiveCourse){nActiveCourse=s.nActiveCourse;document.querySelectorAll("#n-courseTags .course-tag").forEach(b=>{if(b.textContent===nActiveCourse)b.classList.add("active");});}if(s.nActiveDuration!=null){nActiveDuration=s.nActiveDuration;document.querySelectorAll("#n-timeTags .time-tag").forEach(b=>{if(Number(b.dataset.hours)===nActiveDuration)b.classList.add("active");});}if(s.date)document.getElementById("n-date").value=s.date;if(s.start)document.getElementById("n-start").value=s.start;if(s.end)document.getElementById("n-end").value=s.end;if(s.room)document.getElementById("n-room").value=s.room;}catch{}}
 
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 //  打印资料
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 let pActiveCourse="",pActiveSchool="",pCopies=10,pFileCount=1,pFileNames=[""],pFileName="",pEmailText="";
 function pSelectCourse(c,btn){if(pActiveCourse===c){pActiveCourse="";btn.classList.remove("active");}else{pActiveCourse=c;document.querySelectorAll("#p-courseTags .course-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("p-course").value="";}}
 function pSelectSchool(s,btn){if(pActiveSchool===s){pActiveSchool="";btn.classList.remove("active");}else{pActiveSchool=s;document.querySelectorAll("#p-schoolTags .school-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");}}
 function pChangeFileCount(d){syncFileNames();pFileCount=Math.max(1,Math.min(5,pFileCount+d));document.getElementById("p-fileCountVal").textContent=pFileCount;renderFileInputs();}
 function pChangeCopies(d){pCopies=Math.max(1,Math.min(99,pCopies+d));document.getElementById("p-copiesVal").textContent=pCopies;}
 function syncFileNames(){document.getElementById("p-fileInputs").querySelectorAll("input").forEach((inp,i)=>{pFileNames[i]=inp.value;});}
-function renderFileInputs(){
-  while(pFileNames.length<pFileCount)pFileNames.push("");
-  const c=document.getElementById("p-fileInputs");c.innerHTML="";
-  for(let i=0;i<pFileCount;i++){
-    const div=document.createElement("div");div.className="p-file-item";
-    const lbl=document.createElement("span");lbl.className="p-file-num";lbl.textContent=`${i+1}.`;
-    const inp=document.createElement("input");inp.type="text";inp.placeholder="请输入文件名称";inp.value=pFileNames[i]||"";
-    const idx=i;inp.addEventListener("input",()=>{pFileNames[idx]=inp.value;});
-    div.appendChild(lbl);div.appendChild(inp);c.appendChild(div);
-  }
-}
-function pGenerate(){
-  syncFileNames();
-  const name=document.getElementById("p-name").value.trim(),course=pActiveCourse||document.getElementById("p-course").value.trim();
-  const date=document.getElementById("p-date").value,cls=document.getElementById("p-class").value.trim(),room=document.getElementById("p-room").value.trim();
-  const schoolRoom=(pActiveSchool||"")+room;
-  pFileName=[(course+name).trim(),fmtDateShort(date),cls,schoolRoom,CN_NUM[pFileCount]+"个文件"].filter(Boolean).join("/");
-  const fileList=pFileNames.slice(0,pFileCount).map(f=>`* ${f||"（未填写）"}`).join("\n");
-  pEmailText=["教务老师您好，打扰了！","",`这是 ${fmtDateJa(date)}${cls} ${schoolRoom}教室上课所需的打印材料。`,`请帮忙打印以下${CN_NUM[pFileCount]}个文件，共${pCopies}份：`,fileList,"PDF文件已整理完毕，作为附件发送。","谢谢老师的辛苦与配合！","",name||"（请填写姓名）"].join("\n");
-  document.getElementById("p-fnOutput").textContent=pFileName;document.getElementById("p-emailOutput").textContent=pEmailText;pSaveState();
-}
+function renderFileInputs(){while(pFileNames.length<pFileCount)pFileNames.push("");const c=document.getElementById("p-fileInputs");c.innerHTML="";for(let i=0;i<pFileCount;i++){const div=document.createElement("div");div.className="p-file-item";const lbl=document.createElement("span");lbl.className="p-file-num";lbl.textContent=`${i+1}.`;const inp=document.createElement("input");inp.type="text";inp.placeholder="请输入文件名称";inp.value=pFileNames[i]||"";const idx=i;inp.addEventListener("input",()=>{pFileNames[idx]=inp.value;});div.appendChild(lbl);div.appendChild(inp);c.appendChild(div);}}
+function pGenerate(){syncFileNames();const name=document.getElementById("p-name").value.trim(),course=pActiveCourse||document.getElementById("p-course").value.trim(),date=document.getElementById("p-date").value,cls=document.getElementById("p-class").value.trim(),room=document.getElementById("p-room").value.trim(),schoolRoom=(pActiveSchool||"")+room;pFileName=[(course+name).trim(),fmtDateShort(date),cls,schoolRoom,CN_NUM[pFileCount]+"个文件"].filter(Boolean).join("/");const fileList=pFileNames.slice(0,pFileCount).map(f=>`* ${f||"（未填写）"}`).join("\n");pEmailText=["教务老师您好，打扰了！","",`这是 ${fmtDateJa(date)}${cls} ${schoolRoom}教室上课所需的打印材料。`,`请帮忙打印以下${CN_NUM[pFileCount]}个文件，共${pCopies}份：`,fileList,"PDF文件已整理完毕，作为附件发送。","谢谢老师的辛苦与配合！","",name||"（请填写姓名）"].join("\n");document.getElementById("p-fnOutput").textContent=pFileName;document.getElementById("p-emailOutput").textContent=pEmailText;pSaveState();}
 async function pCopyFilename(){if(!pFileName){showToast("请先点击「生成」");return;}await doCopy(pFileName,"p-fnCopyBtn");}
 async function pCopyEmail(){if(!pEmailText){showToast("请先点击「生成」");return;}await doCopy(pEmailText,"p-emailCopyBtn");}
 function pClear(){["p-name","p-course","p-class","p-room"].forEach(id=>document.getElementById(id).value="");document.getElementById("p-date").value=todayValue();pActiveCourse="";pActiveSchool="";document.querySelectorAll("#p-courseTags .course-tag,#p-schoolTags .school-tag").forEach(b=>b.classList.remove("active"));pCopies=10;document.getElementById("p-copiesVal").textContent=10;pFileCount=1;document.getElementById("p-fileCountVal").textContent=1;pFileNames=[""];renderFileInputs();pFileName="";pEmailText="";document.getElementById("p-fnOutput").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';document.getElementById("p-emailOutput").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';localStorage.removeItem("p_state");showToast("已清空");}
 function pSaveState(){syncFileNames();localStorage.setItem("p_state",JSON.stringify({name:document.getElementById("p-name").value,course:document.getElementById("p-course").value,pActiveCourse,pActiveSchool,date:document.getElementById("p-date").value,cls:document.getElementById("p-class").value,room:document.getElementById("p-room").value,pCopies,pFileCount,pFileNames:[...pFileNames]}));}
 function pRestoreState(){const raw=localStorage.getItem("p_state");if(!raw)return;try{const s=JSON.parse(raw);if(s.name)document.getElementById("p-name").value=s.name;if(s.course)document.getElementById("p-course").value=s.course;if(s.pActiveCourse){pActiveCourse=s.pActiveCourse;document.querySelectorAll("#p-courseTags .course-tag").forEach(b=>{if(b.textContent===pActiveCourse)b.classList.add("active");});}if(s.pActiveSchool){pActiveSchool=s.pActiveSchool;document.querySelectorAll("#p-schoolTags .school-tag").forEach(b=>{if(b.textContent===pActiveSchool)b.classList.add("active");});}if(s.date)document.getElementById("p-date").value=s.date;if(s.cls)document.getElementById("p-class").value=s.cls;if(s.room)document.getElementById("p-room").value=s.room;if(s.pCopies){pCopies=s.pCopies;document.getElementById("p-copiesVal").textContent=pCopies;}if(s.pFileCount){pFileCount=s.pFileCount;document.getElementById("p-fileCountVal").textContent=pFileCount;}if(s.pFileNames)pFileNames=s.pFileNames;renderFileInputs();}catch{}}
 
-// ═══════════════════════════════════════
-//  班主任：正常出席打卡
-// ═══════════════════════════════════════
-let cActiveDuration=null, cActiveAttend="", cActiveContents=new Set(), cText="";
-
-function cSelectDuration(h,btn){
-  if(cActiveDuration===h){cActiveDuration=null;btn.classList.remove("active");}
-  else{cActiveDuration=h;document.querySelectorAll("#c-timeTags .time-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("c-end").value=calcEndTime(document.getElementById("c-start").value,h);}
-}
+// ═══════════════════════════════════════════
+//  出席打卡
+// ═══════════════════════════════════════════
+let cActiveDuration=null,cActiveAttend="",cActiveContents=new Set(),cText="";
+function cSelectDuration(h,btn){if(cActiveDuration===h){cActiveDuration=null;btn.classList.remove("active");}else{cActiveDuration=h;document.querySelectorAll("#c-timeTags .time-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("c-end").value=calcEndTime(document.getElementById("c-start").value,h);}}
 function cOnStartChange(){if(cActiveDuration!==null)document.getElementById("c-end").value=calcEndTime(document.getElementById("c-start").value,cActiveDuration);}
-
-function cSelectAttend(t,btn){
-  if(cActiveAttend===t){cActiveAttend="";btn.classList.remove("active");}
-  else{cActiveAttend=t;document.querySelectorAll("#c-attendTags .attend-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");}
-}
-function cToggleContent(t,btn){
-  if(cActiveContents.has(t)){cActiveContents.delete(t);btn.classList.remove("active");}
-  else{cActiveContents.add(t);btn.classList.add("active");document.getElementById("c-content").value="";}
-}
-
-function cGenerate(){
-  const date  = document.getElementById("c-date").value;
-  const start = document.getElementById("c-start").value;
-  const end   = document.getElementById("c-end").value;
-  const student = document.getElementById("c-student").value.trim();
-  const customContent = document.getElementById("c-content").value.trim();
-  const contents = cActiveContents.size ? [...cActiveContents].join("、") : customContent;
-  const dur = calcDuration(start, end);
-  const attendStr = cActiveAttend ? `（${cActiveAttend}）` : "";
-  const timeStr = start&&end ? `${start}-${end}${dur?"（"+dur+"）":""}` : "";
-
-  cText = [
-    "正常出席打卡：",
-    "=============",
-    `✅${fmtDateShort(date)} 面谈结束打卡`,
-    `时间：${timeStr}`,
-    `学生：${student}${attendStr}`,
-    `面谈内容：${contents}`,
-  ].join("\n");
-
-  document.getElementById("c-output").textContent = cText;
-  cSaveState();
-}
+function cSelectAttend(t,btn){if(cActiveAttend===t){cActiveAttend="";btn.classList.remove("active");}else{cActiveAttend=t;document.querySelectorAll("#c-attendTags .attend-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");}}
+function cToggleContent(t,btn){if(cActiveContents.has(t)){cActiveContents.delete(t);btn.classList.remove("active");}else{cActiveContents.add(t);btn.classList.add("active");document.getElementById("c-content").value="";}}
+function cGenerate(){const date=document.getElementById("c-date").value,start=document.getElementById("c-start").value,end=document.getElementById("c-end").value,student=document.getElementById("c-student").value.trim(),customContent=document.getElementById("c-content").value.trim(),contents=cActiveContents.size?[...cActiveContents].join("、"):customContent,dur=calcDuration(start,end),attendStr=cActiveAttend?`（${cActiveAttend}）`:"",timeStr=start&&end?`${start}-${end}${dur?"（"+dur+"）":""}`:""
+  ;cText=["正常出席打卡：","=============",`✅${fmtDateShort(date)} 面谈结束打卡`,`时间：${timeStr}`,`学生：${student}${attendStr}`,`面谈内容：${contents}`].join("\n");document.getElementById("c-output").textContent=cText;cSaveState();}
 async function cCopy(){if(!cText){showToast("请先点击「生成」");return;}await doCopy(cText,"c-copyBtn");}
-function cClear(){
-  document.getElementById("c-date").value=todayValue();
-  document.getElementById("c-start").value="17:00";
-  document.getElementById("c-end").value="18:30";
-  document.getElementById("c-student").value="";
-  document.getElementById("c-content").value="";
-  cActiveDuration=null;cActiveAttend="";cActiveContents.clear();
-  document.querySelectorAll("#c-timeTags .time-tag,#c-attendTags .attend-tag,#c-contentTags .content-tag").forEach(b=>b.classList.remove("active"));
-  cText="";
-  document.getElementById("c-output").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';
-  localStorage.removeItem("c_state");showToast("已清空");
+function cClear(){document.getElementById("c-date").value=todayValue();document.getElementById("c-start").value="17:00";document.getElementById("c-end").value="18:30";document.getElementById("c-student").value="";document.getElementById("c-content").value="";cActiveDuration=null;cActiveAttend="";cActiveContents.clear();document.querySelectorAll("#c-timeTags .time-tag,#c-attendTags .attend-tag,#c-contentTags .content-tag").forEach(b=>b.classList.remove("active"));cText="";document.getElementById("c-output").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';localStorage.removeItem("c_state");showToast("已清空");}
+function cSaveState(){localStorage.setItem("c_state",JSON.stringify({date:document.getElementById("c-date").value,start:document.getElementById("c-start").value,end:document.getElementById("c-end").value,student:document.getElementById("c-student").value,content:document.getElementById("c-content").value,cActiveDuration,cActiveAttend,contents:[...cActiveContents]}));}
+function cRestoreState(){const raw=localStorage.getItem("c_state");if(!raw)return;try{const s=JSON.parse(raw);if(s.date)document.getElementById("c-date").value=s.date;if(s.start)document.getElementById("c-start").value=s.start;if(s.end)document.getElementById("c-end").value=s.end;if(s.student)document.getElementById("c-student").value=s.student;if(s.content)document.getElementById("c-content").value=s.content;if(s.cActiveDuration!=null){cActiveDuration=s.cActiveDuration;document.querySelectorAll("#c-timeTags .time-tag").forEach(b=>{if(Number(b.dataset.hours)===cActiveDuration)b.classList.add("active");});}if(s.cActiveAttend){cActiveAttend=s.cActiveAttend;document.querySelectorAll("#c-attendTags .attend-tag").forEach(b=>{if(b.textContent===cActiveAttend)b.classList.add("active");});}if(s.contents)s.contents.forEach(t=>{cActiveContents.add(t);document.querySelectorAll("#c-contentTags .content-tag").forEach(b=>{if(b.textContent===t)b.classList.add("active");});});}catch{}}
+
+// ═══════════════════════════════════════════
+//  面谈预约表
+// ═══════════════════════════════════════════
+let aMode = "线上";
+let aWeekDate = "";
+// aDays[0]=Mon … aDays[6]=Sun, each: {open:bool, slots:[{start,end}]}
+let aDays = Array.from({length:7}, ()=>({open:false, slots:[]}));
+let aText = "";
+
+function aSelectMode(m, btn) {
+  aMode = m;
+  document.querySelectorAll("#a-modeTags .mode-tag").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
 }
-function cSaveState(){
-  localStorage.setItem("c_state",JSON.stringify({
-    date:document.getElementById("c-date").value,
-    start:document.getElementById("c-start").value,
-    end:document.getElementById("c-end").value,
-    student:document.getElementById("c-student").value,
-    content:document.getElementById("c-content").value,
-    cActiveDuration,cActiveAttend,
-    contents:[...cActiveContents],
+
+// Returns the Monday of the week containing dateStr
+function getMondayOf(dateStr) {
+  const d = new Date(dateStr + "T00:00:00");
+  const day = d.getDay(); // 0=Sun
+  const diff = day === 0 ? -6 : 1 - day;
+  d.setDate(d.getDate() + diff);
+  return d;
+}
+
+function aUpdateWeek() {
+  aWeekDate = document.getElementById("a-weekDate").value;
+  if (!aWeekDate) { document.getElementById("a-weekInfo").textContent=""; return; }
+  const mon = getMondayOf(aWeekDate);
+  const sun = new Date(mon); sun.setDate(sun.getDate()+6);
+  document.getElementById("a-weekInfo").textContent =
+    `${mon.getMonth()+1}/${mon.getDate()}（月）〜 ${sun.getMonth()+1}/${sun.getDate()}（日）`;
+  renderDays();
+}
+
+function renderDays() {
+  if (!aWeekDate) return;
+  const mon = getMondayOf(aWeekDate);
+  const container = document.getElementById("a-daysContainer");
+  container.innerHTML = "";
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(mon); d.setDate(d.getDate() + i);
+    const m = d.getMonth()+1, day = d.getDate();
+    const dayName = DAYS_JA[i];
+    const slots = aDays[i].slots;
+    const isOpen = aDays[i].open;
+
+    // Slot chips HTML
+    const slotHTML = slots.map((s,si) =>
+      `<div class="a-slot-item">
+        <span>${m}/${day}（${dayName}）${s.start}-${s.end}</span>
+        <button class="a-slot-del" onclick="aDeleteSlot(${i},${si})">×</button>
+      </div>`
+    ).join("");
+
+    // Quick time buttons
+    const quickHTML = QUICK_TIMES.map(t =>
+      `<button class="a-quick-btn" onclick="aAddQuick(${i},'${t}')">${t}</button>`
+    ).join("");
+
+    const addAreaHTML = isOpen ? `
+      <div class="a-add-area">
+        <div class="a-add-label">快速添加（默认1h）</div>
+        <div class="a-quick-wrap">${quickHTML}</div>
+        <div class="a-add-label" style="margin-top:6px;">自定义时间段</div>
+        <div class="a-custom-row">
+          <input type="time" id="a-st-${i}" value="19:00" style="flex:1;min-width:0;">
+          <span class="time-sep">—</span>
+          <select id="a-dur-${i}" class="a-dur-sel">
+            <option value="0.5">30分</option>
+            <option value="1" selected>1h</option>
+            <option value="1.5">1.5h</option>
+            <option value="2">2h</option>
+          </select>
+          <button class="a-do-add" onclick="aAddCustom(${i})">＋ 添加</button>
+        </div>
+      </div>` : "";
+
+    const card = document.createElement("div");
+    card.className = "card a-day-card";
+    card.innerHTML = `
+      <div class="a-day-header">
+        <div class="a-day-meta">
+          <span class="a-day-name">${dayName}</span>
+          <span class="a-day-date">${m}/${day}</span>
+          ${slots.length ? `<span class="a-day-count">${slots.length}个</span>` : ""}
+        </div>
+        <button class="a-expand-btn${isOpen?" open":""}" onclick="aToggleDay(${i})">
+          ${isOpen ? "− 收起" : "＋ 添加"}
+        </button>
+      </div>
+      ${slotHTML ? `<div class="a-slot-list">${slotHTML}</div>` : ""}
+      ${addAreaHTML}
+    `;
+    container.appendChild(card);
+  }
+}
+
+function aToggleDay(i) {
+  aDays[i].open = !aDays[i].open;
+  renderDays();
+}
+
+function aAddQuick(dayIdx, startTime) {
+  const [h,m] = startTime.split(":").map(Number);
+  const end = `${pad(Math.floor((h*60+m+60)/60)%24)}:${pad((h*60+m+60)%60)}`;
+  aDays[dayIdx].slots.push({start:startTime, end});
+  renderDays();
+  aSaveState();
+}
+
+function aAddCustom(dayIdx) {
+  const start = document.getElementById(`a-st-${dayIdx}`).value;
+  const dur   = parseFloat(document.getElementById(`a-dur-${dayIdx}`).value);
+  if (!start) return;
+  const [h,m] = start.split(":").map(Number);
+  const mins  = Math.round(dur * 60);
+  const end   = `${pad(Math.floor((h*60+m+mins)/60)%24)}:${pad((h*60+m+mins)%60)}`;
+  aDays[dayIdx].slots.push({start, end});
+  renderDays();
+  aSaveState();
+}
+
+function aDeleteSlot(dayIdx, slotIdx) {
+  aDays[dayIdx].slots.splice(slotIdx, 1);
+  renderDays();
+  aSaveState();
+}
+
+function aGenerate() {
+  if (!aWeekDate) { showToast("请先选择周次"); return; }
+  const mon = getMondayOf(aWeekDate);
+
+  const header = aMode === "线上"
+    ? `@所有人 同学们好，本周可预约面谈时间如下，请大家选择合适时间段并在后面括号内填写自己姓名。\n所有时间为东京时间，请同学们一定注意不要弄错⚠️\n本周面谈形式为【线上】，使用腾讯会议\n（）里是"线下"的，为线下面谈，尽量在前一天预约方便统计安排`
+    : `@所有人 同学们好，本周可预约面谈时间如下，请大家选择合适时间段并在后面括号内填写自己姓名。\n所有时间为东京时间，请同学们一定注意不要弄错⚠️\n本周面谈形式为【线下】`;
+
+  const footer = `如果全部的时间段都不合适可以私信我\n本周如果有特殊情况无法面谈也请私信说明原因\n请同学们直接在群里预约`;
+
+  const parts = [];
+  for (let i = 0; i < 7; i++) {
+    if (aDays[i].slots.length === 0) continue;
+    const d = new Date(mon); d.setDate(d.getDate() + i);
+    const prefix = `${d.getMonth()+1}/${d.getDate()}（${DAYS_JA[i]}）`;
+    if (parts.length > 0) parts.push("");
+    aDays[i].slots.forEach(s => parts.push(`${prefix}${s.start}-${s.end}（）`));
+  }
+
+  if (parts.length === 0) { showToast("请先添加时间段"); return; }
+
+  aText = header + "\n\n" + parts.join("\n") + "\n\n" + footer;
+  document.getElementById("a-output").textContent = aText;
+  aSaveState();
+}
+
+async function aCopy() {
+  if (!aText) { showToast("请先点击「生成」"); return; }
+  await doCopy(aText, "a-copyBtn");
+}
+
+function aClearSlots() {
+  aDays = Array.from({length:7}, ()=>({open:false, slots:[]}));
+  renderDays();
+  aText = "";
+  document.getElementById("a-output").innerHTML = '<span class="output-placeholder">点击「生成」查看结果</span>';
+  localStorage.removeItem("a_state");
+  showToast("已清空所有时间段");
+}
+
+function aSaveState() {
+  localStorage.setItem("a_state", JSON.stringify({
+    aMode, aWeekDate,
+    days: aDays.map(d => ({open:false, slots:d.slots})),
   }));
 }
-function cRestoreState(){
-  const raw=localStorage.getItem("c_state");if(!raw)return;
-  try{
-    const s=JSON.parse(raw);
-    if(s.date)   document.getElementById("c-date").value=s.date;
-    if(s.start)  document.getElementById("c-start").value=s.start;
-    if(s.end)    document.getElementById("c-end").value=s.end;
-    if(s.student)document.getElementById("c-student").value=s.student;
-    if(s.content)document.getElementById("c-content").value=s.content;
-    if(s.cActiveDuration!=null){cActiveDuration=s.cActiveDuration;document.querySelectorAll("#c-timeTags .time-tag").forEach(b=>{if(Number(b.dataset.hours)===cActiveDuration)b.classList.add("active");});}
-    if(s.cActiveAttend){cActiveAttend=s.cActiveAttend;document.querySelectorAll("#c-attendTags .attend-tag").forEach(b=>{if(b.textContent===cActiveAttend)b.classList.add("active");});}
-    if(s.contents)s.contents.forEach(t=>{cActiveContents.add(t);document.querySelectorAll("#c-contentTags .content-tag").forEach(b=>{if(b.textContent===t)b.classList.add("active");});});
-  }catch{}
+
+function aRestoreState() {
+  const raw = localStorage.getItem("a_state"); if (!raw) return;
+  try {
+    const s = JSON.parse(raw);
+    if (s.aMode) {
+      aMode = s.aMode;
+      document.querySelectorAll("#a-modeTags .mode-tag").forEach(b => {
+        if (b.textContent === aMode) b.classList.add("active");
+        else b.classList.remove("active");
+      });
+    }
+    if (s.aWeekDate) {
+      aWeekDate = s.aWeekDate;
+      document.getElementById("a-weekDate").value = aWeekDate;
+      aUpdateWeek();
+    }
+    if (s.days) {
+      s.days.forEach((d,i) => { aDays[i].slots = d.slots || []; });
+      renderDays();
+    }
+  } catch {}
 }
 
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 //  深夜模式 & 共用
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════
 function toggleTheme(){const next=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";applyTheme(next);localStorage.setItem("theme",next);}
 function applyTheme(t){document.documentElement.setAttribute("data-theme",t);document.getElementById("themeBtn").textContent=t==="dark"?"☀️":"🌙";}
-async function doCopy(text,btnId){
-  try{
-    await navigator.clipboard.writeText(text);
-    const btn=document.getElementById(btnId);const orig=btn.textContent;
-    btn.textContent="已复制 ✓";btn.classList.add("copied");
-    setTimeout(()=>{btn.textContent=orig;btn.classList.remove("copied");},2000);
-    showToast("已复制到剪贴板");
-  }catch{showToast("复制失败，请手动选中复制");}
-}
+async function doCopy(text,btnId){try{await navigator.clipboard.writeText(text);const btn=document.getElementById(btnId);const orig=btn.textContent;btn.textContent="已复制 ✓";btn.classList.add("copied");setTimeout(()=>{btn.textContent=orig;btn.classList.remove("copied");},2000);showToast("已复制到剪贴板");}catch{showToast("复制失败，请手动选中复制");}}
 function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2000);}
 
 init();
