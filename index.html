@@ -5,49 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>约课 · 教室 · 打印</title>
 <style>
-  :root {
-    --bg-a:#c2ece7; --bg-b:#cce8f4;
+  :root{
+    --bg-a:#c2ece7;--bg-b:#cce8f4;
     --card:rgba(255,255,255,0.78);
     --card-shadow:0 2px 14px rgba(0,110,100,0.09);
-    --text:#1a2e2c; --sub:#5a7a76;
-    --border:#c4deda; --input-bg:#f2fbfa;
-    --tag-bg:#edf8f6; --out-bg:#eef8f6;
+    --text:#1a2e2c;--sub:#5a7a76;
+    --border:#c4deda;--input-bg:#f2fbfa;
+    --tag-bg:#edf8f6;--out-bg:#eef8f6;
     --placeholder:#9abebb;
-    --accent:#0071e3; --green:#28a745;
-    --clear-bg:#e4f4f1; --clear-color:#4a7570;
+    --accent:#0071e3;--green:#28a745;
+    --clear-bg:#e4f4f1;--clear-color:#4a7570;
     --toast-bg:#1a2e2c;
     --tab-bg:rgba(255,255,255,0.55);
     --tab-active:rgba(255,255,255,0.92);
+    --bz-color:#7c3aed;
   }
-  [data-theme="dark"] {
-    --bg-a:#0c1d1b; --bg-b:#0d1e2a;
+  [data-theme="dark"]{
+    --bg-a:#0c1d1b;--bg-b:#0d1e2a;
     --card:rgba(18,32,30,0.92);
     --card-shadow:0 2px 16px rgba(0,0,0,0.35);
-    --text:#d8eeec; --sub:#6a9e99;
-    --border:#25423f; --input-bg:#112420;
-    --tag-bg:#112420; --out-bg:#0f201e;
+    --text:#d8eeec;--sub:#6a9e99;
+    --border:#25423f;--input-bg:#112420;
+    --tag-bg:#112420;--out-bg:#0f201e;
     --placeholder:#3e6560;
-    --accent:#3aa0ff; --green:#2ecc6a;
-    --clear-bg:#172e2b; --clear-color:#6a9e99;
+    --accent:#3aa0ff;--green:#2ecc6a;
+    --clear-bg:#172e2b;--clear-color:#6a9e99;
     --toast-bg:#d8eeec;
     --tab-bg:rgba(18,32,30,0.5);
     --tab-active:rgba(18,32,30,0.95);
+    --bz-color:#a78bfa;
   }
 
   *{box-sizing:border-box;margin:0;padding:0;}
-
   body{
     font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif;
     background:linear-gradient(150deg,var(--bg-a) 0%,var(--bg-b) 100%);
-    background-attachment:fixed;
-    color:var(--text);min-height:100vh;
-    padding:24px 16px 56px;
+    background-attachment:fixed;color:var(--text);
+    min-height:100vh;padding:24px 16px 56px;
     transition:background .35s,color .25s;
   }
   .container{max-width:520px;margin:0 auto;}
 
-  /* Header */
-  .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+  /* ── 标题栏 ── */
+  .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
   h1{font-size:21px;font-weight:700;letter-spacing:-.3px;color:var(--text);}
   .theme-btn{
     width:38px;height:38px;border-radius:50%;
@@ -58,11 +58,31 @@
   }
   .theme-btn:hover{transform:scale(1.1);}
 
-  /* Tab bar */
+  /* ── 模式切换 ── */
+  .mode-bar{
+    display:flex;gap:8px;margin-bottom:10px;
+  }
+  .mode-btn{
+    flex:1;padding:11px 8px;border-radius:14px;border:2px solid var(--border);
+    font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;
+    background:var(--tab-bg);color:var(--sub);
+    backdrop-filter:blur(8px);
+  }
+  .mode-btn:hover{border-color:var(--accent);color:var(--text);}
+  .mode-btn.active-vip{
+    background:var(--accent);border-color:var(--accent);
+    color:#fff;box-shadow:0 3px 12px rgba(0,113,227,0.35);
+  }
+  .mode-btn.active-bz{
+    background:var(--bz-color);border-color:var(--bz-color);
+    color:#fff;box-shadow:0 3px 12px rgba(124,58,237,0.35);
+  }
+
+  /* ── Tab 栏 ── */
   .tab-bar{
-    display:flex;gap:5px;
-    background:var(--tab-bg);border-radius:14px;padding:5px;
-    margin-bottom:16px;backdrop-filter:blur(8px);
+    display:flex;gap:5px;background:var(--tab-bg);
+    border-radius:14px;padding:5px;margin-bottom:16px;
+    backdrop-filter:blur(8px);
     border:1px solid rgba(255,255,255,0.3);
   }
   [data-theme="dark"] .tab-bar{border-color:rgba(255,255,255,0.06);}
@@ -72,8 +92,9 @@
     background:transparent;color:var(--sub);white-space:nowrap;
   }
   .tab-btn.active{background:var(--tab-active);color:var(--text);box-shadow:0 1px 6px rgba(0,0,0,0.1);}
+  .tab-btn.bz-active{background:var(--bz-color);color:#fff;}
 
-  /* Card */
+  /* ── Card ── */
   .card{
     background:var(--card);border-radius:16px;
     padding:18px 20px;margin-bottom:10px;
@@ -83,11 +104,7 @@
     transition:background .3s,box-shadow .3s;
   }
   [data-theme="dark"] .card{border-color:rgba(255,255,255,0.06);}
-
-  .field-label{
-    font-size:11px;font-weight:700;color:var(--sub);
-    text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;
-  }
+  .field-label{font-size:11px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;}
   .field-row{display:flex;gap:10px;align-items:center;}
 
   input{
@@ -99,49 +116,33 @@
   }
   input:focus{border-color:var(--accent);background:var(--card);}
   input::placeholder{color:var(--placeholder);}
-
   .time-sep{font-size:17px;color:var(--sub);flex-shrink:0;}
 
-  /* Stepper */
+  /* ── Stepper ── */
   .people-row{display:flex;align-items:center;gap:12px;}
-  .stepper{
-    display:flex;align-items:center;
-    border:1.5px solid var(--border);border-radius:10px;
-    overflow:hidden;background:var(--input-bg);
-  }
-  .stepper button{
-    width:40px;height:40px;border:none;background:transparent;
-    font-size:20px;cursor:pointer;color:var(--accent);
-    display:flex;align-items:center;justify-content:center;
-    transition:background .1s;flex-shrink:0;
-  }
+  .stepper{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;background:var(--input-bg);}
+  .stepper button{width:40px;height:40px;border:none;background:transparent;font-size:20px;cursor:pointer;color:var(--accent);display:flex;align-items:center;justify-content:center;transition:background .1s;flex-shrink:0;}
   .stepper button:hover{background:var(--tag-bg);}
   .stepper button:active{opacity:.7;}
-  .stepper-val{
-    min-width:36px;text-align:center;font-size:16px;font-weight:700;color:var(--text);
-    border-left:1.5px solid var(--border);border-right:1.5px solid var(--border);
-    height:40px;line-height:40px;
-  }
+  .stepper-val{min-width:36px;text-align:center;font-size:16px;font-weight:700;color:var(--text);border-left:1.5px solid var(--border);border-right:1.5px solid var(--border);height:40px;line-height:40px;}
   .people-label{font-size:14px;color:var(--sub);}
 
-  /* Tags */
+  /* ── Tags ── */
   .tags-wrap,.course-tags,.time-tags{display:flex;flex-wrap:wrap;gap:8px;}
   .course-tags{margin-bottom:10px;}
   .time-tags{margin-top:10px;}
-  .tag-btn,.course-tag,.time-tag,.school-tag{
+  .tag-btn,.course-tag,.time-tag,.school-tag,.attend-tag,.content-tag{
     border:1.5px solid var(--border);border-radius:20px;
     padding:7px 14px;font-size:13px;cursor:pointer;
     background:var(--tag-bg);color:var(--sub);
     transition:all .15s;user-select:none;
   }
-  .tag-btn:hover,.course-tag:hover,.time-tag:hover,.school-tag:hover{
-    border-color:var(--accent);color:var(--accent);
-  }
-  .tag-btn.active,.course-tag.active,.time-tag.active,.school-tag.active{
-    background:var(--accent);border-color:var(--accent);color:#fff;
-  }
+  .tag-btn:hover,.course-tag:hover,.time-tag:hover,.school-tag:hover,.attend-tag:hover,.content-tag:hover{border-color:var(--accent);color:var(--accent);}
+  .tag-btn.active,.course-tag.active,.time-tag.active,.school-tag.active,.attend-tag.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  /* 班主任 tag 选中色 */
+  .content-tag.active{background:var(--bz-color);border-color:var(--bz-color);color:#fff;}
 
-  /* Output */
+  /* ── Output ── */
   .output-box{
     background:var(--out-bg);border:1.5px solid var(--border);
     border-radius:12px;padding:14px 16px;
@@ -151,26 +152,19 @@
   }
   .output-box.mono{font-family:"SF Mono","Menlo","Courier New",monospace;font-size:14px;}
   .output-placeholder{color:var(--placeholder);font-size:14px;font-family:inherit;}
-  .output-sub-label{
-    font-size:12px;font-weight:700;color:var(--sub);
-    margin-bottom:7px;margin-top:4px;
-  }
+  .output-sub-label{font-size:12px;font-weight:700;color:var(--sub);margin-bottom:7px;margin-top:4px;}
 
-  /* Buttons */
+  /* ── Buttons ── */
   .btn-row{display:flex;gap:10px;margin-top:12px;}
-  .btn{
-    flex:1;padding:12px 0;border-radius:12px;
-    font-size:15px;font-weight:600;cursor:pointer;border:none;
-    transition:opacity .15s,transform .1s;
-    display:flex;align-items:center;justify-content:center;gap:5px;
-  }
+  .btn{flex:1;padding:12px 0;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;border:none;transition:opacity .15s,transform .1s;display:flex;align-items:center;justify-content:center;gap:5px;}
   .btn:active{opacity:.8;transform:scale(.97);}
   .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary-bz{background:var(--bz-color);color:#fff;}
   .btn-copy{background:var(--green);color:#fff;}
   .btn-clear{background:var(--clear-bg);color:var(--clear-color);}
   .btn-copy.copied{filter:brightness(.85);}
 
-  /* Print section specifics */
+  /* ── Print specifics ── */
   .p-settings-row{display:flex;gap:20px;}
   .p-setting-col{flex:1;}
   .p-setting-label{font-size:12px;color:var(--sub);margin-bottom:8px;font-weight:600;}
@@ -178,46 +172,50 @@
   .p-file-item:last-child{margin-bottom:0;}
   .p-file-num{font-size:13px;color:var(--sub);flex-shrink:0;width:22px;font-weight:700;}
 
-  /* Toast */
-  .toast{
-    position:fixed;bottom:30px;left:50%;
-    transform:translateX(-50%) translateY(60px);
-    background:var(--toast-bg);color:#fff;
-    padding:10px 20px;border-radius:20px;font-size:14px;
-    opacity:0;transition:all .25s;pointer-events:none;z-index:999;
-  }
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
+  /* ── Section ── */
   .section{display:none;}
   .section.active{display:block;}
+
+  /* ── Toast ── */
+  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--toast-bg);color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;opacity:0;transition:all .25s;pointer-events:none;z-index:999;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
   @media(max-width:400px){
     h1{font-size:18px;}
     .btn{font-size:13px;padding:11px 0;}
     .tab-btn{font-size:12px;}
+    .mode-btn{font-size:13px;}
   }
 </style>
 </head>
 <body>
 <div class="container">
 
+  <!-- 标题栏 -->
   <div class="header">
     <h1>约课 · 教室 · 打印</h1>
     <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
   </div>
 
-  <div class="tab-bar">
-    <button class="tab-btn active" id="tab-book"   onclick="switchTab('book')">📋 约课预约</button>
-    <button class="tab-btn"        id="tab-notify" onclick="switchTab('notify')">🔔 教室提醒</button>
-    <button class="tab-btn"        id="tab-print"  onclick="switchTab('print')">🖨️ 打印资料</button>
+  <!-- 模式切换 -->
+  <div class="mode-bar">
+    <button class="mode-btn" id="mode-vip" onclick="switchMode('vip')">📚 VIP</button>
+    <button class="mode-btn" id="mode-bz"  onclick="switchMode('bz')">🏫 班主任</button>
   </div>
 
-  <!-- ══ Section 1: 约课预约 ══ -->
-  <div class="section active" id="sec-book">
-    <div class="card">
-      <div class="field-label">日期</div>
-      <input type="date" id="b-date">
-    </div>
+  <!-- Tab 栏 -->
+  <div class="tab-bar" id="tabBar">
+    <!-- VIP tabs -->
+    <button class="tab-btn vip-tab" id="tab-book"    onclick="switchTab('book')">📋 约课预约</button>
+    <button class="tab-btn vip-tab" id="tab-notify"  onclick="switchTab('notify')">🔔 教室提醒</button>
+    <button class="tab-btn vip-tab" id="tab-print"   onclick="switchTab('print')">🖨️ 打印资料</button>
+    <!-- 班主任 tabs -->
+    <button class="tab-btn bz-tab"  id="tab-checkin" onclick="switchTab('checkin')">✅ 出席打卡</button>
+  </div>
+
+  <!-- ══ VIP: 约课预约 ══ -->
+  <div class="section" id="sec-book">
+    <div class="card"><div class="field-label">日期</div><input type="date" id="b-date"></div>
     <div class="card">
       <div class="field-label">时间</div>
       <div class="field-row">
@@ -243,18 +241,9 @@
       <div class="course-tags" id="b-courseTags"></div>
       <input type="text" id="b-course" placeholder="其他（手动输入）">
     </div>
-    <div class="card">
-      <div class="field-label">姓名</div>
-      <input type="text" id="b-name" placeholder="请输入姓名">
-    </div>
-    <div class="card">
-      <div class="field-label">附加要求（可多选）</div>
-      <div class="tags-wrap" id="b-reqTags"></div>
-    </div>
-    <div class="card">
-      <div class="field-label">备注（可选）</div>
-      <input type="text" id="b-remark" placeholder="其他补充说明…">
-    </div>
+    <div class="card"><div class="field-label">姓名</div><input type="text" id="b-name" placeholder="请输入姓名"></div>
+    <div class="card"><div class="field-label">附加要求（可多选）</div><div class="tags-wrap" id="b-reqTags"></div></div>
+    <div class="card"><div class="field-label">备注（可选）</div><input type="text" id="b-remark" placeholder="其他补充说明…"></div>
     <div class="card">
       <div class="field-label">生成文本</div>
       <div class="output-box" id="b-output"><span class="output-placeholder">点击「生成」查看结果</span></div>
@@ -266,21 +255,15 @@
     </div>
   </div>
 
-  <!-- ══ Section 2: 教室提醒 ══ -->
+  <!-- ══ VIP: 教室提醒 ══ -->
   <div class="section" id="sec-notify">
-    <div class="card">
-      <div class="field-label">学生姓名</div>
-      <input type="text" id="n-name" placeholder="例：王晨">
-    </div>
+    <div class="card"><div class="field-label">学生姓名</div><input type="text" id="n-name" placeholder="例：王晨"></div>
     <div class="card">
       <div class="field-label">课程类型</div>
       <div class="course-tags" id="n-courseTags"></div>
       <input type="text" id="n-course" placeholder="其他（手动输入）">
     </div>
-    <div class="card">
-      <div class="field-label">日期</div>
-      <input type="date" id="n-date">
-    </div>
+    <div class="card"><div class="field-label">日期</div><input type="date" id="n-date"></div>
     <div class="card">
       <div class="field-label">时间</div>
       <div class="field-row">
@@ -290,10 +273,7 @@
       </div>
       <div class="time-tags" id="n-timeTags"></div>
     </div>
-    <div class="card">
-      <div class="field-label">教室</div>
-      <input type="text" id="n-room" placeholder="例：304">
-    </div>
+    <div class="card"><div class="field-label">教室</div><input type="text" id="n-room" placeholder="例：304"></div>
     <div class="card">
       <div class="field-label">生成提醒</div>
       <div class="output-box mono" id="n-output"><span class="output-placeholder">点击「生成」查看结果</span></div>
@@ -305,36 +285,21 @@
     </div>
   </div>
 
-  <!-- ══ Section 3: 打印资料 ══ -->
+  <!-- ══ VIP: 打印资料 ══ -->
   <div class="section" id="sec-print">
-
-    <div class="card">
-      <div class="field-label">姓名</div>
-      <input type="text" id="p-name" placeholder="请输入姓名（用于文件名及落款）">
-    </div>
-
+    <div class="card"><div class="field-label">姓名</div><input type="text" id="p-name" placeholder="请输入姓名（用于文件名及落款）"></div>
     <div class="card">
       <div class="field-label">课程类型</div>
       <div class="course-tags" id="p-courseTags"></div>
       <input type="text" id="p-course" placeholder="其他（手动输入）">
     </div>
-
-    <div class="card">
-      <div class="field-label">日期</div>
-      <input type="date" id="p-date">
-    </div>
-
-    <div class="card">
-      <div class="field-label">班级</div>
-      <input type="text" id="p-class" placeholder="例：文科理科线下基础班">
-    </div>
-
+    <div class="card"><div class="field-label">日期</div><input type="date" id="p-date"></div>
+    <div class="card"><div class="field-label">班级</div><input type="text" id="p-class" placeholder="例：文科理科线下基础班"></div>
     <div class="card">
       <div class="field-label">校区 &amp; 教室号</div>
       <div class="tags-wrap" id="p-schoolTags" style="margin-bottom:10px;"></div>
       <input type="text" id="p-room" placeholder="教室号，例：501">
     </div>
-
     <div class="card">
       <div class="field-label">打印设置</div>
       <div class="p-settings-row">
@@ -362,226 +327,185 @@
         </div>
       </div>
     </div>
-
-    <div class="card">
-      <div class="field-label">文件名称</div>
-      <div id="p-fileInputs"></div>
-    </div>
-
+    <div class="card"><div class="field-label">文件名称</div><div id="p-fileInputs"></div></div>
     <div class="card">
       <div class="field-label">生成结果</div>
-
       <div class="output-sub-label">📄 文件名</div>
-      <div class="output-box" id="p-fnOutput" style="min-height:50px;font-size:14px;word-break:break-all;">
-        <span class="output-placeholder">点击「生成」查看结果</span>
-      </div>
-      <div class="btn-row" style="margin-bottom:16px;">
-        <button class="btn btn-copy" id="p-fnCopyBtn" onclick="pCopyFilename()">复制文件名</button>
-      </div>
-
+      <div class="output-box" id="p-fnOutput" style="min-height:50px;font-size:14px;word-break:break-all;"><span class="output-placeholder">点击「生成」查看结果</span></div>
+      <div class="btn-row" style="margin-bottom:16px;"><button class="btn btn-copy" id="p-fnCopyBtn" onclick="pCopyFilename()">复制文件名</button></div>
       <div class="output-sub-label">📧 邮件正文</div>
-      <div class="output-box" id="p-emailOutput">
-        <span class="output-placeholder">点击「生成」查看结果</span>
-      </div>
-      <div class="btn-row" style="margin-bottom:14px;">
-        <button class="btn btn-copy" id="p-emailCopyBtn" onclick="pCopyEmail()">复制邮件</button>
-      </div>
-
+      <div class="output-box" id="p-emailOutput"><span class="output-placeholder">点击「生成」查看结果</span></div>
+      <div class="btn-row" style="margin-bottom:14px;"><button class="btn btn-copy" id="p-emailCopyBtn" onclick="pCopyEmail()">复制邮件</button></div>
       <div class="btn-row">
         <button class="btn btn-primary" onclick="pGenerate()">生成</button>
         <button class="btn btn-clear" onclick="pClear()">清空</button>
       </div>
     </div>
+  </div>
 
-  </div><!-- /sec-print -->
+  <!-- ══ 班主任: 正常出席打卡 ══ -->
+  <div class="section" id="sec-checkin">
+
+    <div class="card"><div class="field-label">日期</div><input type="date" id="c-date"></div>
+
+    <div class="card">
+      <div class="field-label">时间</div>
+      <div class="field-row">
+        <input type="time" id="c-start" value="17:00" oninput="cOnStartChange()">
+        <span class="time-sep">—</span>
+        <input type="time" id="c-end" value="18:30">
+      </div>
+      <div class="time-tags" id="c-timeTags"></div>
+    </div>
+
+    <div class="card">
+      <div class="field-label">学生</div>
+      <input type="text" id="c-student" placeholder="请输入学生姓名" style="margin-bottom:10px;">
+      <div class="tags-wrap" id="c-attendTags"></div>
+    </div>
+
+    <div class="card">
+      <div class="field-label">面谈内容（可多选）</div>
+      <div class="tags-wrap" id="c-contentTags" style="margin-bottom:10px;"></div>
+      <input type="text" id="c-content" placeholder="其他（手动输入）">
+    </div>
+
+    <div class="card">
+      <div class="field-label">生成文本</div>
+      <div class="output-box mono" id="c-output"><span class="output-placeholder">点击「生成」查看结果</span></div>
+      <div class="btn-row">
+        <button class="btn btn-primary-bz" onclick="cGenerate()">生成</button>
+        <button class="btn btn-copy" id="c-copyBtn" onclick="cCopy()">复制</button>
+        <button class="btn btn-clear" onclick="cClear()">清空</button>
+      </div>
+    </div>
+
+  </div>
 
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════
-//  共用常量
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════
+//  常量
+// ═══════════════════════════════════════
 const WEEKDAYS  = ["日","月","火","水","木","金","土"];
 const COURSES   = ["面谈","VIP","VIP日语","VIP文综","VIP数学"];
 const REQ_TAGS  = ["麻烦想要有空调的教室","麻烦想要大一点的教室","麻烦想要有投影的教室"];
 const DURATIONS = [["1小时",1],["1.5小时",1.5],["2小时",2],["2.5小时",2.5],["3小时",3]];
-
 const PRINT_COURSES = ["EJU日语","EJU文综","EJU数学","VIP日语","VIP文综","VIP数学","面谈"];
-const SCHOOLS = ["精英校区","KS校区"];
-const CN_NUM  = ["","一","两","三","四","五","六","七","八","九","十"];
+const SCHOOLS  = ["精英校区","KS校区"];
+const CN_NUM   = ["","一","两","三","四","五","六","七","八","九","十"];
+const ATTEND_TAGS   = ["线上","线下"];
+const CONTENT_TAGS  = ["大学介绍","课上习题","出願","听写","志望理由书说明"];
 
-// ═══════════════════════════════════════════
-//  约课状态
-// ═══════════════════════════════════════════
-let bPeople=2, bActiveCourse="", bActiveDuration=null;
-let bActiveTags=new Set(), bText="";
+// ═══════════════════════════════════════
+//  模式 & Tab 状态
+// ═══════════════════════════════════════
+let activeMode = "vip";
 
-// ═══════════════════════════════════════════
-//  教室提醒状态
-// ═══════════════════════════════════════════
-let nActiveCourse="", nActiveDuration=null, nText="";
+function switchMode(mode) {
+  activeMode = mode;
+  // 模式按钮样式
+  document.getElementById("mode-vip").className = "mode-btn" + (mode==="vip"?" active-vip":"");
+  document.getElementById("mode-bz").className  = "mode-btn" + (mode==="bz" ?" active-bz" :"");
+  // 显示/隐藏 tab 按钮
+  document.querySelectorAll(".vip-tab").forEach(b=>b.style.display=mode==="vip"?"flex":"none");
+  document.querySelectorAll(".bz-tab") .forEach(b=>b.style.display=mode==="bz" ?"flex":"none");
+  // 跳到该模式第一个 tab
+  switchTab(mode==="vip"?"book":"checkin");
+  localStorage.setItem("activeMode", mode);
+}
 
-// ═══════════════════════════════════════════
-//  打印资料状态
-// ═══════════════════════════════════════════
-let pActiveCourse="", pActiveSchool="";
-let pCopies=10, pFileCount=1;
-let pFileNames=[""];
-let pFileName="", pEmailText="";
-
-// ═══════════════════════════════════════════
-//  Tab
-// ═══════════════════════════════════════════
 function switchTab(tab) {
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b=>{b.classList.remove("active");b.classList.remove("bz-active");});
   document.getElementById("sec-"+tab).classList.add("active");
-  document.getElementById("tab-"+tab).classList.add("active");
-  localStorage.setItem("activeTab",tab);
+  const tabBtn = document.getElementById("tab-"+tab);
+  tabBtn.classList.add(activeMode==="bz"?"bz-active":"active");
+  localStorage.setItem("activeTab", tab);
 }
 
-// ═══════════════════════════════════════════
-//  工具函数
-// ═══════════════════════════════════════════
-function todayValue(){
-  const d=new Date();
-  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-}
+// ═══════════════════════════════════════
+//  工具
+// ═══════════════════════════════════════
+function todayValue(){const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;}
 function pad(n){return String(n).padStart(2,"0");}
+function fmtDateJa(s){if(!s)return "";const d=new Date(s+"T00:00:00");return `${d.getMonth()+1}月${d.getDate()}日（${WEEKDAYS[d.getDay()]}）`;}
+function fmtDateShort(s){if(!s)return "";const d=new Date(s+"T00:00:00");return `${d.getMonth()+1}月${d.getDate()}日`;}
+function fmtDateNotify(s){if(!s)return "";const d=new Date(s+"T00:00:00");return `${d.getFullYear()} ${pad(d.getMonth()+1)} ${pad(d.getDate())} （${WEEKDAYS[d.getDay()]}）`;}
+function calcEndTime(startVal,hours){if(!startVal)return "";const[h,m]=startVal.split(":").map(Number);const t=h*60+m+hours*60;return `${pad(Math.floor(t/60)%24)}:${pad(t%60)}`;}
+function calcDuration(start,end){
+  if(!start||!end)return "";
+  const[sh,sm]=start.split(":").map(Number);
+  const[eh,em]=end.split(":").map(Number);
+  const mins=(eh*60+em)-(sh*60+sm);
+  if(mins<=0)return "";
+  const h=mins/60;
+  return Number.isInteger(h)?`${h}h`:`${h}h`;
+}
+function mkBtn(cls,text,onclick){const b=document.createElement("button");b.className=cls;b.textContent=text;b.onclick=onclick;return b;}
 
-function fmtDateJa(s){       // 5月27日（水）
-  if(!s)return "";
-  const d=new Date(s+"T00:00:00");
-  return `${d.getMonth()+1}月${d.getDate()}日（${WEEKDAYS[d.getDay()]}）`;
-}
-function fmtDateShort(s){    // 5月27日
-  if(!s)return "";
-  const d=new Date(s+"T00:00:00");
-  return `${d.getMonth()+1}月${d.getDate()}日`;
-}
-function fmtDateNotify(s){   // 2026 05 27 （水）
-  if(!s)return "";
-  const d=new Date(s+"T00:00:00");
-  return `${d.getFullYear()} ${pad(d.getMonth()+1)} ${pad(d.getDate())} （${WEEKDAYS[d.getDay()]}）`;
-}
-function calcEndTime(startVal,hours){
-  if(!startVal)return "";
-  const[h,m]=startVal.split(":").map(Number);
-  const t=h*60+m+hours*60;
-  return `${pad(Math.floor(t/60)%24)}:${pad(t%60)}`;
-}
-
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════
 //  初始化
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════
 function init(){
-  // ── 约课 ────────────────────────────────
+  // 约课
   document.getElementById("b-date").value=todayValue();
-  DURATIONS.forEach(([lbl,h])=>{
-    const btn=mkBtn("time-tag",lbl,()=>bSelectDuration(h,btn));
-    btn.dataset.hours=h;
-    document.getElementById("b-timeTags").appendChild(btn);
-  });
-  COURSES.forEach(c=>{
-    const btn=mkBtn("course-tag",c,()=>bSelectCourse(c,btn));
-    document.getElementById("b-courseTags").appendChild(btn);
-  });
-  document.getElementById("b-course").addEventListener("input",()=>{
-    bActiveCourse="";
-    document.querySelectorAll("#b-courseTags .course-tag").forEach(b=>b.classList.remove("active"));
-  });
-  REQ_TAGS.forEach(t=>{
-    const btn=mkBtn("tag-btn",t,()=>bToggleReq(t,btn));
-    document.getElementById("b-reqTags").appendChild(btn);
-  });
+  DURATIONS.forEach(([l,h])=>{const b=mkBtn("time-tag",l,()=>bSelectDuration(h,b));b.dataset.hours=h;document.getElementById("b-timeTags").appendChild(b);});
+  COURSES.forEach(c=>{const b=mkBtn("course-tag",c,()=>bSelectCourse(c,b));document.getElementById("b-courseTags").appendChild(b);});
+  document.getElementById("b-course").addEventListener("input",()=>{bActiveCourse="";document.querySelectorAll("#b-courseTags .course-tag").forEach(b=>b.classList.remove("active"));});
+  REQ_TAGS.forEach(t=>{const b=mkBtn("tag-btn",t,()=>bToggleReq(t,b));document.getElementById("b-reqTags").appendChild(b);});
 
-  // ── 教室提醒 ─────────────────────────────
+  // 教室提醒
   document.getElementById("n-date").value=todayValue();
-  DURATIONS.forEach(([lbl,h])=>{
-    const btn=mkBtn("time-tag",lbl,()=>nSelectDuration(h,btn));
-    btn.dataset.hours=h;
-    document.getElementById("n-timeTags").appendChild(btn);
-  });
-  COURSES.forEach(c=>{
-    const btn=mkBtn("course-tag",c,()=>nSelectCourse(c,btn));
-    document.getElementById("n-courseTags").appendChild(btn);
-  });
-  document.getElementById("n-course").addEventListener("input",()=>{
-    nActiveCourse="";
-    document.querySelectorAll("#n-courseTags .course-tag").forEach(b=>b.classList.remove("active"));
-  });
+  DURATIONS.forEach(([l,h])=>{const b=mkBtn("time-tag",l,()=>nSelectDuration(h,b));b.dataset.hours=h;document.getElementById("n-timeTags").appendChild(b);});
+  COURSES.forEach(c=>{const b=mkBtn("course-tag",c,()=>nSelectCourse(c,b));document.getElementById("n-courseTags").appendChild(b);});
+  document.getElementById("n-course").addEventListener("input",()=>{nActiveCourse="";document.querySelectorAll("#n-courseTags .course-tag").forEach(b=>b.classList.remove("active"));});
 
-  // ── 打印资料 ─────────────────────────────
+  // 打印
   document.getElementById("p-date").value=todayValue();
-  PRINT_COURSES.forEach(c=>{
-    const btn=mkBtn("course-tag",c,()=>pSelectCourse(c,btn));
-    document.getElementById("p-courseTags").appendChild(btn);
-  });
-  document.getElementById("p-course").addEventListener("input",()=>{
-    pActiveCourse="";
-    document.querySelectorAll("#p-courseTags .course-tag").forEach(b=>b.classList.remove("active"));
-  });
-  SCHOOLS.forEach(s=>{
-    const btn=mkBtn("school-tag",s,()=>pSelectSchool(s,btn));
-    document.getElementById("p-schoolTags").appendChild(btn);
-  });
+  PRINT_COURSES.forEach(c=>{const b=mkBtn("course-tag",c,()=>pSelectCourse(c,b));document.getElementById("p-courseTags").appendChild(b);});
+  document.getElementById("p-course").addEventListener("input",()=>{pActiveCourse="";document.querySelectorAll("#p-courseTags .course-tag").forEach(b=>b.classList.remove("active"));});
+  SCHOOLS.forEach(s=>{const b=mkBtn("school-tag",s,()=>pSelectSchool(s,b));document.getElementById("p-schoolTags").appendChild(b);});
   renderFileInputs();
 
-  // ── 恢复 ────────────────────────────────
+  // 出席打卡
+  document.getElementById("c-date").value=todayValue();
+  DURATIONS.forEach(([l,h])=>{const b=mkBtn("time-tag",l,()=>cSelectDuration(h,b));b.dataset.hours=h;document.getElementById("c-timeTags").appendChild(b);});
+  ATTEND_TAGS.forEach(t=>{const b=mkBtn("attend-tag",t,()=>cSelectAttend(t,b));document.getElementById("c-attendTags").appendChild(b);});
+  CONTENT_TAGS.forEach(t=>{const b=mkBtn("content-tag",t,()=>cToggleContent(t,b));document.getElementById("c-contentTags").appendChild(b);});
+  document.getElementById("c-content").addEventListener("input",()=>{
+    cActiveContents.clear();
+    document.querySelectorAll("#c-contentTags .content-tag").forEach(b=>b.classList.remove("active"));
+  });
+
+  // 恢复
   applyTheme(localStorage.getItem("theme")||"light");
-  switchTab(localStorage.getItem("activeTab")||"book");
-  bRestoreState();
-  nRestoreState();
-  pRestoreState();
+  const savedMode=localStorage.getItem("activeMode")||"vip";
+  switchMode(savedMode);
+  bRestoreState();nRestoreState();pRestoreState();cRestoreState();
 }
 
-function mkBtn(cls,text,onclick){
-  const btn=document.createElement("button");
-  btn.className=cls; btn.textContent=text; btn.onclick=onclick;
-  return btn;
+// ═══════════════════════════════════════
+//  约课
+// ═══════════════════════════════════════
+let bPeople=2,bActiveCourse="",bActiveDuration=null,bActiveTags=new Set(),bText="";
+function changePeople(d){bPeople=Math.max(1,Math.min(20,bPeople+d));document.getElementById("b-peopleVal").textContent=bPeople;}
+function bSelectDuration(h,btn){
+  if(bActiveDuration===h){bActiveDuration=null;btn.classList.remove("active");}
+  else{bActiveDuration=h;document.querySelectorAll("#b-timeTags .time-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("b-end").value=calcEndTime(document.getElementById("b-start").value,h);}
 }
-
-// ═══════════════════════════════════════════
-//  约课逻辑
-// ═══════════════════════════════════════════
-function changePeople(d){
-  bPeople=Math.max(1,Math.min(20,bPeople+d));
-  document.getElementById("b-peopleVal").textContent=bPeople;
-}
-function bSelectDuration(hours,btn){
-  if(bActiveDuration===hours){bActiveDuration=null;btn.classList.remove("active");}
-  else{
-    bActiveDuration=hours;
-    document.querySelectorAll("#b-timeTags .time-tag").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById("b-end").value=calcEndTime(document.getElementById("b-start").value,hours);
-  }
-}
-function bOnStartChange(){
-  if(bActiveDuration!==null)
-    document.getElementById("b-end").value=calcEndTime(document.getElementById("b-start").value,bActiveDuration);
-}
+function bOnStartChange(){if(bActiveDuration!==null)document.getElementById("b-end").value=calcEndTime(document.getElementById("b-start").value,bActiveDuration);}
 function bSelectCourse(c,btn){
   if(bActiveCourse===c){bActiveCourse="";btn.classList.remove("active");}
-  else{
-    bActiveCourse=c;
-    document.querySelectorAll("#b-courseTags .course-tag").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById("b-course").value="";
-  }
+  else{bActiveCourse=c;document.querySelectorAll("#b-courseTags .course-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("b-course").value="";}
 }
-function bToggleReq(tag,btn){
-  if(bActiveTags.has(tag)){bActiveTags.delete(tag);btn.classList.remove("active");}
-  else{bActiveTags.add(tag);btn.classList.add("active");}
-}
+function bToggleReq(tag,btn){if(bActiveTags.has(tag)){bActiveTags.delete(tag);btn.classList.remove("active");}else{bActiveTags.add(tag);btn.classList.add("active");}}
 function bGenerate(){
-  const date=document.getElementById("b-date").value;
-  const start=document.getElementById("b-start").value;
-  const end=document.getElementById("b-end").value;
+  const date=document.getElementById("b-date").value,start=document.getElementById("b-start").value,end=document.getElementById("b-end").value;
   const course=bActiveCourse||document.getElementById("b-course").value.trim();
-  const name=document.getElementById("b-name").value.trim();
-  const remark=document.getElementById("b-remark").value.trim();
+  const name=document.getElementById("b-name").value.trim(),remark=document.getElementById("b-remark").value.trim();
   const tagStr=bActiveTags.size?`（${[...bActiveTags].join("、")}）`:"";
   const lines=[`教务老师您好，想要预约一下教室${tagStr}`];
   if(date)lines.push(`日期：${fmtDateJa(date)}`);
@@ -590,286 +514,181 @@ function bGenerate(){
   if(course)lines.push(`内容：${course}`);
   if(name)lines.push(`姓名：${name}`);
   if(remark)lines.push(`备注：${remark}`);
-  bText=lines.join("\n");
-  document.getElementById("b-output").textContent=bText;
-  bSaveState();
+  bText=lines.join("\n");document.getElementById("b-output").textContent=bText;bSaveState();
 }
 async function bCopy(){if(!bText){showToast("请先点击「生成」");return;}await doCopy(bText,"b-copyBtn");}
 function bClear(){
-  document.getElementById("b-date").value=todayValue();
-  document.getElementById("b-start").value="14:00";
-  document.getElementById("b-end").value="16:00";
+  document.getElementById("b-date").value=todayValue();document.getElementById("b-start").value="14:00";document.getElementById("b-end").value="16:00";
   ["b-course","b-name","b-remark"].forEach(id=>document.getElementById(id).value="");
-  bPeople=2;document.getElementById("b-peopleVal").textContent="2";
-  bActiveTags.clear();bActiveCourse="";bActiveDuration=null;
-  document.querySelectorAll("#b-reqTags .tag-btn,#b-courseTags .course-tag,#b-timeTags .time-tag")
-    .forEach(b=>b.classList.remove("active"));
-  bText="";
-  document.getElementById("b-output").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';
-  localStorage.removeItem("b_state");showToast("已清空");
+  bPeople=2;document.getElementById("b-peopleVal").textContent="2";bActiveTags.clear();bActiveCourse="";bActiveDuration=null;
+  document.querySelectorAll("#b-reqTags .tag-btn,#b-courseTags .course-tag,#b-timeTags .time-tag").forEach(b=>b.classList.remove("active"));
+  bText="";document.getElementById("b-output").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';localStorage.removeItem("b_state");showToast("已清空");
 }
-function bSaveState(){
-  localStorage.setItem("b_state",JSON.stringify({
-    date:document.getElementById("b-date").value,
-    start:document.getElementById("b-start").value,
-    end:document.getElementById("b-end").value,
-    course:document.getElementById("b-course").value,
-    bActiveCourse,bActiveDuration,
-    name:document.getElementById("b-name").value,
-    remark:document.getElementById("b-remark").value,
-    bPeople,tags:[...bActiveTags],
-  }));
-}
+function bSaveState(){localStorage.setItem("b_state",JSON.stringify({date:document.getElementById("b-date").value,start:document.getElementById("b-start").value,end:document.getElementById("b-end").value,course:document.getElementById("b-course").value,bActiveCourse,bActiveDuration,name:document.getElementById("b-name").value,remark:document.getElementById("b-remark").value,bPeople,tags:[...bActiveTags]}));}
 function bRestoreState(){
-  const raw=localStorage.getItem("b_state")||localStorage.getItem("booking_state");
-  if(!raw)return;
-  try{
-    const s=JSON.parse(raw);
-    if(s.date) document.getElementById("b-date").value=s.date;
-    if(s.start)document.getElementById("b-start").value=s.start;
-    if(s.end)  document.getElementById("b-end").value=s.end;
-    if(s.course)document.getElementById("b-course").value=s.course;
-    const ac=s.bActiveCourse||s.activeCourse;
-    if(ac){bActiveCourse=ac;document.querySelectorAll("#b-courseTags .course-tag").forEach(b=>{if(b.textContent===ac)b.classList.add("active");});}
-    const ad=s.bActiveDuration??s.activeDuration;
-    if(ad!=null){bActiveDuration=ad;document.querySelectorAll("#b-timeTags .time-tag").forEach(b=>{if(Number(b.dataset.hours)===ad)b.classList.add("active");});}
-    if(s.name)  document.getElementById("b-name").value=s.name;
-    if(s.remark)document.getElementById("b-remark").value=s.remark;
-    const bp=s.bPeople||s.people;
-    if(bp){bPeople=bp;document.getElementById("b-peopleVal").textContent=bPeople;}
+  const raw=localStorage.getItem("b_state")||localStorage.getItem("booking_state");if(!raw)return;
+  try{const s=JSON.parse(raw);
+    if(s.date)document.getElementById("b-date").value=s.date;if(s.start)document.getElementById("b-start").value=s.start;if(s.end)document.getElementById("b-end").value=s.end;if(s.course)document.getElementById("b-course").value=s.course;
+    const ac=s.bActiveCourse||s.activeCourse;if(ac){bActiveCourse=ac;document.querySelectorAll("#b-courseTags .course-tag").forEach(b=>{if(b.textContent===ac)b.classList.add("active");});}
+    const ad=s.bActiveDuration??s.activeDuration;if(ad!=null){bActiveDuration=ad;document.querySelectorAll("#b-timeTags .time-tag").forEach(b=>{if(Number(b.dataset.hours)===ad)b.classList.add("active");});}
+    if(s.name)document.getElementById("b-name").value=s.name;if(s.remark)document.getElementById("b-remark").value=s.remark;
+    const bp=s.bPeople||s.people;if(bp){bPeople=bp;document.getElementById("b-peopleVal").textContent=bPeople;}
     if(s.tags)s.tags.forEach(tag=>{bActiveTags.add(tag);document.querySelectorAll("#b-reqTags .tag-btn").forEach(b=>{if(b.textContent===tag)b.classList.add("active");});});
   }catch{}
 }
 
-// ═══════════════════════════════════════════
-//  教室提醒逻辑
-// ═══════════════════════════════════════════
-function nSelectDuration(hours,btn){
-  if(nActiveDuration===hours){nActiveDuration=null;btn.classList.remove("active");}
-  else{
-    nActiveDuration=hours;
-    document.querySelectorAll("#n-timeTags .time-tag").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById("n-end").value=calcEndTime(document.getElementById("n-start").value,hours);
-  }
-}
-function nOnStartChange(){
-  if(nActiveDuration!==null)
-    document.getElementById("n-end").value=calcEndTime(document.getElementById("n-start").value,nActiveDuration);
-}
-function nSelectCourse(c,btn){
-  if(nActiveCourse===c){nActiveCourse="";btn.classList.remove("active");}
-  else{nActiveCourse=c;document.querySelectorAll("#n-courseTags .course-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("n-course").value="";}
-}
+// ═══════════════════════════════════════
+//  教室提醒
+// ═══════════════════════════════════════
+let nActiveCourse="",nActiveDuration=null,nText="";
+function nSelectDuration(h,btn){if(nActiveDuration===h){nActiveDuration=null;btn.classList.remove("active");}else{nActiveDuration=h;document.querySelectorAll("#n-timeTags .time-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("n-end").value=calcEndTime(document.getElementById("n-start").value,h);}}
+function nOnStartChange(){if(nActiveDuration!==null)document.getElementById("n-end").value=calcEndTime(document.getElementById("n-start").value,nActiveDuration);}
+function nSelectCourse(c,btn){if(nActiveCourse===c){nActiveCourse="";btn.classList.remove("active");}else{nActiveCourse=c;document.querySelectorAll("#n-courseTags .course-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("n-course").value="";}}
 function nGenerate(){
-  const name  =document.getElementById("n-name").value.trim();
-  const course=nActiveCourse||document.getElementById("n-course").value.trim();
-  const date  =document.getElementById("n-date").value;
-  const start =document.getElementById("n-start").value;
-  const end   =document.getElementById("n-end").value;
-  const room  =document.getElementById("n-room").value.trim();
+  const name=document.getElementById("n-name").value.trim(),course=nActiveCourse||document.getElementById("n-course").value.trim();
+  const date=document.getElementById("n-date").value,start=document.getElementById("n-start").value,end=document.getElementById("n-end").value,room=document.getElementById("n-room").value.trim();
   const sep="--------------";
-  nText=[sep,
-    `课程：${name?name+"同学":""}${course?"（"+course+"）":""}`,
-    `时间：${fmtDateNotify(date)}${start&&end?" "+start+"-"+end:""}`,
-    `教室：${room}`,sep].join("\n");
-  document.getElementById("n-output").textContent=nText;
-  nSaveState();
+  nText=[sep,`课程：${name?name+"同学":""}${course?"（"+course+"）":""}`,`时间：${fmtDateNotify(date)}${start&&end?" "+start+"-"+end:""}`,`教室：${room}`,sep].join("\n");
+  document.getElementById("n-output").textContent=nText;nSaveState();
 }
 async function nCopy(){if(!nText){showToast("请先点击「生成」");return;}await doCopy(nText,"n-copyBtn");}
-function nClear(){
-  ["n-name","n-course","n-room"].forEach(id=>document.getElementById(id).value="");
-  document.getElementById("n-date").value=todayValue();
-  document.getElementById("n-start").value="14:00";
-  document.getElementById("n-end").value="16:00";
-  nActiveCourse="";nActiveDuration=null;
-  document.querySelectorAll("#n-courseTags .course-tag,#n-timeTags .time-tag").forEach(b=>b.classList.remove("active"));
-  nText="";
-  document.getElementById("n-output").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';
-  localStorage.removeItem("n_state");showToast("已清空");
-}
-function nSaveState(){
-  localStorage.setItem("n_state",JSON.stringify({
-    name:document.getElementById("n-name").value,
-    course:document.getElementById("n-course").value,
-    nActiveCourse,nActiveDuration,
-    date:document.getElementById("n-date").value,
-    start:document.getElementById("n-start").value,
-    end:document.getElementById("n-end").value,
-    room:document.getElementById("n-room").value,
-  }));
-}
-function nRestoreState(){
-  const raw=localStorage.getItem("n_state");if(!raw)return;
-  try{
-    const s=JSON.parse(raw);
-    if(s.name) document.getElementById("n-name").value=s.name;
-    if(s.course)document.getElementById("n-course").value=s.course;
-    if(s.nActiveCourse){nActiveCourse=s.nActiveCourse;document.querySelectorAll("#n-courseTags .course-tag").forEach(b=>{if(b.textContent===nActiveCourse)b.classList.add("active");});}
-    if(s.nActiveDuration!=null){nActiveDuration=s.nActiveDuration;document.querySelectorAll("#n-timeTags .time-tag").forEach(b=>{if(Number(b.dataset.hours)===nActiveDuration)b.classList.add("active");});}
-    if(s.date) document.getElementById("n-date").value=s.date;
-    if(s.start)document.getElementById("n-start").value=s.start;
-    if(s.end)  document.getElementById("n-end").value=s.end;
-    if(s.room) document.getElementById("n-room").value=s.room;
-  }catch{}
-}
+function nClear(){["n-name","n-course","n-room"].forEach(id=>document.getElementById(id).value="");document.getElementById("n-date").value=todayValue();document.getElementById("n-start").value="14:00";document.getElementById("n-end").value="16:00";nActiveCourse="";nActiveDuration=null;document.querySelectorAll("#n-courseTags .course-tag,#n-timeTags .time-tag").forEach(b=>b.classList.remove("active"));nText="";document.getElementById("n-output").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';localStorage.removeItem("n_state");showToast("已清空");}
+function nSaveState(){localStorage.setItem("n_state",JSON.stringify({name:document.getElementById("n-name").value,course:document.getElementById("n-course").value,nActiveCourse,nActiveDuration,date:document.getElementById("n-date").value,start:document.getElementById("n-start").value,end:document.getElementById("n-end").value,room:document.getElementById("n-room").value}));}
+function nRestoreState(){const raw=localStorage.getItem("n_state");if(!raw)return;try{const s=JSON.parse(raw);if(s.name)document.getElementById("n-name").value=s.name;if(s.course)document.getElementById("n-course").value=s.course;if(s.nActiveCourse){nActiveCourse=s.nActiveCourse;document.querySelectorAll("#n-courseTags .course-tag").forEach(b=>{if(b.textContent===nActiveCourse)b.classList.add("active");});}if(s.nActiveDuration!=null){nActiveDuration=s.nActiveDuration;document.querySelectorAll("#n-timeTags .time-tag").forEach(b=>{if(Number(b.dataset.hours)===nActiveDuration)b.classList.add("active");});}if(s.date)document.getElementById("n-date").value=s.date;if(s.start)document.getElementById("n-start").value=s.start;if(s.end)document.getElementById("n-end").value=s.end;if(s.room)document.getElementById("n-room").value=s.room;}catch{}}
 
-// ═══════════════════════════════════════════
-//  打印资料逻辑
-// ═══════════════════════════════════════════
-function pSelectCourse(c,btn){
-  if(pActiveCourse===c){pActiveCourse="";btn.classList.remove("active");}
-  else{pActiveCourse=c;document.querySelectorAll("#p-courseTags .course-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("p-course").value="";}
-}
-function pSelectSchool(s,btn){
-  if(pActiveSchool===s){pActiveSchool="";btn.classList.remove("active");}
-  else{pActiveSchool=s;document.querySelectorAll("#p-schoolTags .school-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");}
-}
-function pChangeFileCount(d){
-  // save current inputs first
-  syncFileNames();
-  pFileCount=Math.max(1,Math.min(5,pFileCount+d));
-  document.getElementById("p-fileCountVal").textContent=pFileCount;
-  renderFileInputs();
-}
-function pChangeCopies(d){
-  pCopies=Math.max(1,Math.min(99,pCopies+d));
-  document.getElementById("p-copiesVal").textContent=pCopies;
-}
-function syncFileNames(){
-  document.getElementById("p-fileInputs").querySelectorAll("input").forEach((inp,i)=>{pFileNames[i]=inp.value;});
-}
+// ═══════════════════════════════════════
+//  打印资料
+// ═══════════════════════════════════════
+let pActiveCourse="",pActiveSchool="",pCopies=10,pFileCount=1,pFileNames=[""],pFileName="",pEmailText="";
+function pSelectCourse(c,btn){if(pActiveCourse===c){pActiveCourse="";btn.classList.remove("active");}else{pActiveCourse=c;document.querySelectorAll("#p-courseTags .course-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("p-course").value="";}}
+function pSelectSchool(s,btn){if(pActiveSchool===s){pActiveSchool="";btn.classList.remove("active");}else{pActiveSchool=s;document.querySelectorAll("#p-schoolTags .school-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");}}
+function pChangeFileCount(d){syncFileNames();pFileCount=Math.max(1,Math.min(5,pFileCount+d));document.getElementById("p-fileCountVal").textContent=pFileCount;renderFileInputs();}
+function pChangeCopies(d){pCopies=Math.max(1,Math.min(99,pCopies+d));document.getElementById("p-copiesVal").textContent=pCopies;}
+function syncFileNames(){document.getElementById("p-fileInputs").querySelectorAll("input").forEach((inp,i)=>{pFileNames[i]=inp.value;});}
 function renderFileInputs(){
   while(pFileNames.length<pFileCount)pFileNames.push("");
-  const container=document.getElementById("p-fileInputs");
-  container.innerHTML="";
+  const c=document.getElementById("p-fileInputs");c.innerHTML="";
   for(let i=0;i<pFileCount;i++){
-    const div=document.createElement("div");
-    div.className="p-file-item";
-    const lbl=document.createElement("span");
-    lbl.className="p-file-num";lbl.textContent=`${i+1}.`;
-    const inp=document.createElement("input");
-    inp.type="text";inp.placeholder="请输入文件名称";
-    inp.value=pFileNames[i]||"";
-    const idx=i;
-    inp.addEventListener("input",()=>{pFileNames[idx]=inp.value;});
-    div.appendChild(lbl);div.appendChild(inp);
-    container.appendChild(div);
+    const div=document.createElement("div");div.className="p-file-item";
+    const lbl=document.createElement("span");lbl.className="p-file-num";lbl.textContent=`${i+1}.`;
+    const inp=document.createElement("input");inp.type="text";inp.placeholder="请输入文件名称";inp.value=pFileNames[i]||"";
+    const idx=i;inp.addEventListener("input",()=>{pFileNames[idx]=inp.value;});
+    div.appendChild(lbl);div.appendChild(inp);c.appendChild(div);
   }
 }
 function pGenerate(){
   syncFileNames();
-  const name  =document.getElementById("p-name").value.trim();
-  const course=pActiveCourse||document.getElementById("p-course").value.trim();
-  const date  =document.getElementById("p-date").value;
-  const cls   =document.getElementById("p-class").value.trim();
-  const room  =document.getElementById("p-room").value.trim();
+  const name=document.getElementById("p-name").value.trim(),course=pActiveCourse||document.getElementById("p-course").value.trim();
+  const date=document.getElementById("p-date").value,cls=document.getElementById("p-class").value.trim(),room=document.getElementById("p-room").value.trim();
   const schoolRoom=(pActiveSchool||"")+room;
-
-  // 文件名
-  const parts=[(course+name).trim(),fmtDateShort(date),cls,schoolRoom,CN_NUM[pFileCount]+"个文件"];
-  pFileName=parts.filter(Boolean).join("/");
-
-  // 邮件正文
+  pFileName=[(course+name).trim(),fmtDateShort(date),cls,schoolRoom,CN_NUM[pFileCount]+"个文件"].filter(Boolean).join("/");
   const fileList=pFileNames.slice(0,pFileCount).map(f=>`* ${f||"（未填写）"}`).join("\n");
-  pEmailText=[
-    "教务老师您好，打扰了！",
-    "",
-    `这是 ${fmtDateJa(date)}${cls} ${schoolRoom}教室上课所需的打印材料。`,
-    `请帮忙打印以下${CN_NUM[pFileCount]}个文件，共${pCopies}份：`,
-    fileList,
-    "PDF文件已整理完毕，作为附件发送。",
-    "谢谢老师的辛苦与配合！",
-    "",
-    name||"（请填写姓名）",
+  pEmailText=["教务老师您好，打扰了！","",`这是 ${fmtDateJa(date)}${cls} ${schoolRoom}教室上课所需的打印材料。`,`请帮忙打印以下${CN_NUM[pFileCount]}个文件，共${pCopies}份：`,fileList,"PDF文件已整理完毕，作为附件发送。","谢谢老师的辛苦与配合！","",name||"（请填写姓名）"].join("\n");
+  document.getElementById("p-fnOutput").textContent=pFileName;document.getElementById("p-emailOutput").textContent=pEmailText;pSaveState();
+}
+async function pCopyFilename(){if(!pFileName){showToast("请先点击「生成」");return;}await doCopy(pFileName,"p-fnCopyBtn");}
+async function pCopyEmail(){if(!pEmailText){showToast("请先点击「生成」");return;}await doCopy(pEmailText,"p-emailCopyBtn");}
+function pClear(){["p-name","p-course","p-class","p-room"].forEach(id=>document.getElementById(id).value="");document.getElementById("p-date").value=todayValue();pActiveCourse="";pActiveSchool="";document.querySelectorAll("#p-courseTags .course-tag,#p-schoolTags .school-tag").forEach(b=>b.classList.remove("active"));pCopies=10;document.getElementById("p-copiesVal").textContent=10;pFileCount=1;document.getElementById("p-fileCountVal").textContent=1;pFileNames=[""];renderFileInputs();pFileName="";pEmailText="";document.getElementById("p-fnOutput").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';document.getElementById("p-emailOutput").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';localStorage.removeItem("p_state");showToast("已清空");}
+function pSaveState(){syncFileNames();localStorage.setItem("p_state",JSON.stringify({name:document.getElementById("p-name").value,course:document.getElementById("p-course").value,pActiveCourse,pActiveSchool,date:document.getElementById("p-date").value,cls:document.getElementById("p-class").value,room:document.getElementById("p-room").value,pCopies,pFileCount,pFileNames:[...pFileNames]}));}
+function pRestoreState(){const raw=localStorage.getItem("p_state");if(!raw)return;try{const s=JSON.parse(raw);if(s.name)document.getElementById("p-name").value=s.name;if(s.course)document.getElementById("p-course").value=s.course;if(s.pActiveCourse){pActiveCourse=s.pActiveCourse;document.querySelectorAll("#p-courseTags .course-tag").forEach(b=>{if(b.textContent===pActiveCourse)b.classList.add("active");});}if(s.pActiveSchool){pActiveSchool=s.pActiveSchool;document.querySelectorAll("#p-schoolTags .school-tag").forEach(b=>{if(b.textContent===pActiveSchool)b.classList.add("active");});}if(s.date)document.getElementById("p-date").value=s.date;if(s.cls)document.getElementById("p-class").value=s.cls;if(s.room)document.getElementById("p-room").value=s.room;if(s.pCopies){pCopies=s.pCopies;document.getElementById("p-copiesVal").textContent=pCopies;}if(s.pFileCount){pFileCount=s.pFileCount;document.getElementById("p-fileCountVal").textContent=pFileCount;}if(s.pFileNames)pFileNames=s.pFileNames;renderFileInputs();}catch{}}
+
+// ═══════════════════════════════════════
+//  班主任：正常出席打卡
+// ═══════════════════════════════════════
+let cActiveDuration=null, cActiveAttend="", cActiveContents=new Set(), cText="";
+
+function cSelectDuration(h,btn){
+  if(cActiveDuration===h){cActiveDuration=null;btn.classList.remove("active");}
+  else{cActiveDuration=h;document.querySelectorAll("#c-timeTags .time-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById("c-end").value=calcEndTime(document.getElementById("c-start").value,h);}
+}
+function cOnStartChange(){if(cActiveDuration!==null)document.getElementById("c-end").value=calcEndTime(document.getElementById("c-start").value,cActiveDuration);}
+
+function cSelectAttend(t,btn){
+  if(cActiveAttend===t){cActiveAttend="";btn.classList.remove("active");}
+  else{cActiveAttend=t;document.querySelectorAll("#c-attendTags .attend-tag").forEach(b=>b.classList.remove("active"));btn.classList.add("active");}
+}
+function cToggleContent(t,btn){
+  if(cActiveContents.has(t)){cActiveContents.delete(t);btn.classList.remove("active");}
+  else{cActiveContents.add(t);btn.classList.add("active");document.getElementById("c-content").value="";}
+}
+
+function cGenerate(){
+  const date  = document.getElementById("c-date").value;
+  const start = document.getElementById("c-start").value;
+  const end   = document.getElementById("c-end").value;
+  const student = document.getElementById("c-student").value.trim();
+  const customContent = document.getElementById("c-content").value.trim();
+  const contents = cActiveContents.size ? [...cActiveContents].join("、") : customContent;
+  const dur = calcDuration(start, end);
+  const attendStr = cActiveAttend ? `（${cActiveAttend}）` : "";
+  const timeStr = start&&end ? `${start}-${end}${dur?"（"+dur+"）":""}` : "";
+
+  cText = [
+    "正常出席打卡：",
+    "=============",
+    `✅${fmtDateShort(date)} 面谈结束打卡`,
+    `时间：${timeStr}`,
+    `学生：${student}${attendStr}`,
+    `面谈内容：${contents}`,
   ].join("\n");
 
-  document.getElementById("p-fnOutput").textContent=pFileName;
-  document.getElementById("p-emailOutput").textContent=pEmailText;
-  pSaveState();
+  document.getElementById("c-output").textContent = cText;
+  cSaveState();
 }
-async function pCopyFilename(){
-  if(!pFileName){showToast("请先点击「生成」");return;}
-  await doCopy(pFileName,"p-fnCopyBtn");
+async function cCopy(){if(!cText){showToast("请先点击「生成」");return;}await doCopy(cText,"c-copyBtn");}
+function cClear(){
+  document.getElementById("c-date").value=todayValue();
+  document.getElementById("c-start").value="17:00";
+  document.getElementById("c-end").value="18:30";
+  document.getElementById("c-student").value="";
+  document.getElementById("c-content").value="";
+  cActiveDuration=null;cActiveAttend="";cActiveContents.clear();
+  document.querySelectorAll("#c-timeTags .time-tag,#c-attendTags .attend-tag,#c-contentTags .content-tag").forEach(b=>b.classList.remove("active"));
+  cText="";
+  document.getElementById("c-output").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';
+  localStorage.removeItem("c_state");showToast("已清空");
 }
-async function pCopyEmail(){
-  if(!pEmailText){showToast("请先点击「生成」");return;}
-  await doCopy(pEmailText,"p-emailCopyBtn");
-}
-function pClear(){
-  ["p-name","p-course","p-class","p-room"].forEach(id=>document.getElementById(id).value="");
-  document.getElementById("p-date").value=todayValue();
-  pActiveCourse="";pActiveSchool="";
-  document.querySelectorAll("#p-courseTags .course-tag,#p-schoolTags .school-tag").forEach(b=>b.classList.remove("active"));
-  pCopies=10;document.getElementById("p-copiesVal").textContent=10;
-  pFileCount=1;document.getElementById("p-fileCountVal").textContent=1;
-  pFileNames=[""];renderFileInputs();
-  pFileName="";pEmailText="";
-  document.getElementById("p-fnOutput").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';
-  document.getElementById("p-emailOutput").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';
-  localStorage.removeItem("p_state");showToast("已清空");
-}
-function pSaveState(){
-  syncFileNames();
-  localStorage.setItem("p_state",JSON.stringify({
-    name:document.getElementById("p-name").value,
-    course:document.getElementById("p-course").value,
-    pActiveCourse,pActiveSchool,
-    date:document.getElementById("p-date").value,
-    cls:document.getElementById("p-class").value,
-    room:document.getElementById("p-room").value,
-    pCopies,pFileCount,
-    pFileNames:[...pFileNames],
+function cSaveState(){
+  localStorage.setItem("c_state",JSON.stringify({
+    date:document.getElementById("c-date").value,
+    start:document.getElementById("c-start").value,
+    end:document.getElementById("c-end").value,
+    student:document.getElementById("c-student").value,
+    content:document.getElementById("c-content").value,
+    cActiveDuration,cActiveAttend,
+    contents:[...cActiveContents],
   }));
 }
-function pRestoreState(){
-  const raw=localStorage.getItem("p_state");if(!raw)return;
+function cRestoreState(){
+  const raw=localStorage.getItem("c_state");if(!raw)return;
   try{
     const s=JSON.parse(raw);
-    if(s.name)  document.getElementById("p-name").value=s.name;
-    if(s.course)document.getElementById("p-course").value=s.course;
-    if(s.pActiveCourse){pActiveCourse=s.pActiveCourse;document.querySelectorAll("#p-courseTags .course-tag").forEach(b=>{if(b.textContent===pActiveCourse)b.classList.add("active");});}
-    if(s.pActiveSchool){pActiveSchool=s.pActiveSchool;document.querySelectorAll("#p-schoolTags .school-tag").forEach(b=>{if(b.textContent===pActiveSchool)b.classList.add("active");});}
-    if(s.date)document.getElementById("p-date").value=s.date;
-    if(s.cls) document.getElementById("p-class").value=s.cls;
-    if(s.room)document.getElementById("p-room").value=s.room;
-    if(s.pCopies){pCopies=s.pCopies;document.getElementById("p-copiesVal").textContent=pCopies;}
-    if(s.pFileCount){pFileCount=s.pFileCount;document.getElementById("p-fileCountVal").textContent=pFileCount;}
-    if(s.pFileNames)pFileNames=s.pFileNames;
-    renderFileInputs();
+    if(s.date)   document.getElementById("c-date").value=s.date;
+    if(s.start)  document.getElementById("c-start").value=s.start;
+    if(s.end)    document.getElementById("c-end").value=s.end;
+    if(s.student)document.getElementById("c-student").value=s.student;
+    if(s.content)document.getElementById("c-content").value=s.content;
+    if(s.cActiveDuration!=null){cActiveDuration=s.cActiveDuration;document.querySelectorAll("#c-timeTags .time-tag").forEach(b=>{if(Number(b.dataset.hours)===cActiveDuration)b.classList.add("active");});}
+    if(s.cActiveAttend){cActiveAttend=s.cActiveAttend;document.querySelectorAll("#c-attendTags .attend-tag").forEach(b=>{if(b.textContent===cActiveAttend)b.classList.add("active");});}
+    if(s.contents)s.contents.forEach(t=>{cActiveContents.add(t);document.querySelectorAll("#c-contentTags .content-tag").forEach(b=>{if(b.textContent===t)b.classList.add("active");});});
   }catch{}
 }
 
-// ═══════════════════════════════════════════
-//  深夜模式
-// ═══════════════════════════════════════════
-function toggleTheme(){
-  const next=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
-  applyTheme(next);localStorage.setItem("theme",next);
-}
-function applyTheme(t){
-  document.documentElement.setAttribute("data-theme",t);
-  document.getElementById("themeBtn").textContent=t==="dark"?"☀️":"🌙";
-}
-
-// ═══════════════════════════════════════════
-//  共用
-// ═══════════════════════════════════════════
+// ═══════════════════════════════════════
+//  深夜模式 & 共用
+// ═══════════════════════════════════════
+function toggleTheme(){const next=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";applyTheme(next);localStorage.setItem("theme",next);}
+function applyTheme(t){document.documentElement.setAttribute("data-theme",t);document.getElementById("themeBtn").textContent=t==="dark"?"☀️":"🌙";}
 async function doCopy(text,btnId){
   try{
     await navigator.clipboard.writeText(text);
-    const btn=document.getElementById(btnId);
-    const orig=btn.textContent;
+    const btn=document.getElementById(btnId);const orig=btn.textContent;
     btn.textContent="已复制 ✓";btn.classList.add("copied");
     setTimeout(()=>{btn.textContent=orig;btn.classList.remove("copied");},2000);
     showToast("已复制到剪贴板");
   }catch{showToast("复制失败，请手动选中复制");}
 }
-function showToast(msg){
-  const t=document.getElementById("toast");
-  t.textContent=msg;t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),2000);
-}
+function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2000);}
 
 init();
 </script>
