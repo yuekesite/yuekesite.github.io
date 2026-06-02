@@ -125,9 +125,13 @@
   .a-expand-btn:hover,.a-expand-btn.open{background:var(--bz-color);color:#fff;}
 
   .a-slot-list{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
-  .a-slot-item{display:flex;align-items:center;justify-content:space-between;background:var(--tag-bg);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;font-size:14px;color:var(--text);}
+  .a-slot-item{display:flex;align-items:center;gap:8px;background:var(--tag-bg);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;font-size:14px;color:var(--text);}
+  .a-slot-text{flex:1;min-width:0;}
   .a-slot-del{background:none;border:none;color:var(--placeholder);cursor:pointer;font-size:18px;line-height:1;padding:0 2px;transition:color .15s;flex-shrink:0;}
   .a-slot-del:hover{color:#e53e3e;}
+  .a-mode-toggle{font-size:12px;font-weight:700;padding:5px 9px;border-radius:8px;border:1.5px solid var(--bz-color);color:var(--bz-color);background:transparent;cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0;min-width:44px;min-height:32px;}
+  .a-mode-toggle.offline{background:var(--bz-color);color:#fff;}
+  .a-mode-toggle:active{opacity:.75;}
 
   .a-add-area{border-top:1px solid var(--border);padding-top:12px;margin-top:12px;}
   .a-add-label{font-size:11px;font-weight:700;color:var(--sub);letter-spacing:.5px;margin-bottom:7px;}
@@ -156,9 +160,23 @@
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
   @media(max-width:400px){h1{font-size:18px;}.btn{font-size:13px;padding:11px 0;}.tab-btn{font-size:11px;}.mode-btn{font-size:13px;}}
+
+  /* ── 背景浮球 ── */
+  :root{--orb-c:rgba(0,110,95,0.07);}
+  [data-theme="dark"]{--orb-c:rgba(160,210,255,0.05);}
+  .bg-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:-1;background:var(--orb-c);filter:blur(48px);}
+  .orb1{width:300px;height:300px;top:-80px;left:-80px;animation:float1 15s ease-in-out infinite;}
+  .orb2{width:220px;height:220px;bottom:15%;right:-60px;animation:float2 12s ease-in-out infinite;animation-delay:-5s;}
+  .orb3{width:160px;height:160px;top:48%;left:35%;animation:float3 18s ease-in-out infinite;animation-delay:-9s;}
+  @keyframes float1{0%,100%{transform:translate(0,0);}50%{transform:translate(38px,28px);}}
+  @keyframes float2{0%,100%{transform:translate(0,0);}50%{transform:translate(-28px,-36px);}}
+  @keyframes float3{0%,100%{transform:translate(0,0);}33%{transform:translate(22px,-26px);}66%{transform:translate(-18px,22px);}}
 </style>
 </head>
 <body>
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="bg-orb orb3"></div>
 <div class="container">
 
   <div class="header">
@@ -516,12 +534,14 @@ function renderDays() {
     const isOpen = aDays[i].open;
 
     // Slot chips HTML
-    const slotHTML = slots.map((s,si) =>
-      `<div class="a-slot-item">
-        <span>${m}/${day}（${dayName}）${s.start}-${s.end}</span>
+    const slotHTML = slots.map((s,si) => {
+      const isOffline = (s.mode||"线上") === "线下";
+      return `<div class="a-slot-item">
+        <span class="a-slot-text">${m}/${day}（${dayName}）${s.start}-${s.end}</span>
+        <button class="a-mode-toggle${isOffline?" offline":""}" onclick="aToggleSlotMode(${i},${si})">${s.mode||"线上"}</button>
         <button class="a-slot-del" onclick="aDeleteSlot(${i},${si})">×</button>
-      </div>`
-    ).join("");
+      </div>`;
+    }).join("");
 
     // Quick time buttons
     const quickHTML = QUICK_TIMES.map(t =>
@@ -574,7 +594,7 @@ function aToggleDay(i) {
 function aAddQuick(dayIdx, startTime) {
   const [h,m] = startTime.split(":").map(Number);
   const end = `${pad(Math.floor((h*60+m+60)/60)%24)}:${pad((h*60+m+60)%60)}`;
-  aDays[dayIdx].slots.push({start:startTime, end});
+  aDays[dayIdx].slots.push({start:startTime, end, mode:"线上"});
   renderDays();
   aSaveState();
 }
@@ -586,7 +606,14 @@ function aAddCustom(dayIdx) {
   const [h,m] = start.split(":").map(Number);
   const mins  = Math.round(dur * 60);
   const end   = `${pad(Math.floor((h*60+m+mins)/60)%24)}:${pad((h*60+m+mins)%60)}`;
-  aDays[dayIdx].slots.push({start, end});
+  aDays[dayIdx].slots.push({start, end, mode:"线上"});
+  renderDays();
+  aSaveState();
+}
+
+function aToggleSlotMode(dayIdx, slotIdx) {
+  const s = aDays[dayIdx].slots[slotIdx];
+  s.mode = (s.mode||"线上") === "线上" ? "线下" : "线上";
   renderDays();
   aSaveState();
 }
@@ -613,7 +640,7 @@ function aGenerate() {
     const d = new Date(mon); d.setDate(d.getDate() + i);
     const prefix = `${d.getMonth()+1}/${d.getDate()}（${DAYS_JA[i]}）`;
     if (parts.length > 0) parts.push("");
-    aDays[i].slots.forEach(s => parts.push(`${prefix}${s.start}-${s.end}（）`));
+    aDays[i].slots.forEach(s => parts.push(`${prefix}${s.start}-${s.end}（${s.mode||"线上"}）`));
   }
 
   if (parts.length === 0) { showToast("请先添加时间段"); return; }
