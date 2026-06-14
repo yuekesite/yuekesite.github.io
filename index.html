@@ -295,7 +295,7 @@
 
     <!-- 面谈形式 -->
     <div class="card">
-      <div class="field-label">面谈形式</div>
+      <div class="field-label">面谈形式（可同时选择）</div>
       <div class="tags-wrap" id="a-modeTags"></div>
     </div>
 
@@ -407,7 +407,7 @@ function init(){
   // 面谈预约 mode tags
   ["线上","线下"].forEach(m=>{
     const b=mkBtn("mode-tag",m,()=>aSelectMode(m,b));
-    if(m===aMode)b.classList.add("active");
+    if(aModes.has(m))b.classList.add("active");
     document.getElementById("a-modeTags").appendChild(b);
   });
   document.getElementById("a-weekDate").value = todayValue();
@@ -489,16 +489,22 @@ function cRestoreState(){const raw=localStorage.getItem("c_state");if(!raw)retur
 // ═══════════════════════════════════════════
 //  面谈预约表
 // ═══════════════════════════════════════════
-let aMode = "线上";
+let aModes = new Set(["线上"]); // 面谈形式，可多选
 let aWeekDate = "";
 // aDays[0]=Mon … aDays[6]=Sun, each: {open:bool, slots:[{start,end}]}
 let aDays = Array.from({length:7}, ()=>({open:false, slots:[]}));
 let aText = "";
 
 function aSelectMode(m, btn) {
-  aMode = m;
-  document.querySelectorAll("#a-modeTags .mode-tag").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
+  if (aModes.has(m)) {
+    if (aModes.size === 1) return; // 至少保留一个
+    aModes.delete(m);
+    btn.classList.remove("active");
+  } else {
+    aModes.add(m);
+    btn.classList.add("active");
+  }
+  aSaveState();
 }
 
 // Returns the Monday of the week containing dateStr
@@ -628,9 +634,17 @@ function aGenerate() {
   if (!aWeekDate) { showToast("请先选择周次"); return; }
   const mon = getMondayOf(aWeekDate);
 
-  const header = aMode === "线上"
-    ? `@所有人 同学们好，本周可预约面谈时间如下，请大家选择合适时间段并在后面括号内填写自己姓名。\n所有时间为东京时间，请同学们一定注意不要弄错⚠️\n本周面谈形式为【线上】，使用腾讯会议\n（）里是"线下"的，为线下面谈，尽量在前一天预约方便统计安排`
-    : `@所有人 同学们好，本周可预约面谈时间如下，请大家选择合适时间段并在后面括号内填写自己姓名。\n所有时间为东京时间，请同学们一定注意不要弄错⚠️\n本周面谈形式为【线下】`;
+  const online = aModes.has("线上"), offline = aModes.has("线下");
+  const intro = `@所有人 同学们好，本周可预约面谈时间如下，请大家选择合适时间段并在后面括号内填写自己姓名。\n所有时间为东京时间，请同学们一定注意不要弄错⚠️`;
+  let formLine;
+  if (online && offline) {
+    formLine = `本周面谈形式为【线上 / 线下】，线上使用腾讯会议\n请按每个时间段后括号内标注的（线上/线下）形式参加，尽量在前一天预约方便统计安排`;
+  } else if (offline) {
+    formLine = `本周面谈形式为【线下】`;
+  } else {
+    formLine = `本周面谈形式为【线上】，使用腾讯会议\n（）里是"线下"的，为线下面谈，尽量在前一天预约方便统计安排`;
+  }
+  const header = `${intro}\n${formLine}`;
 
   const footer = `如果全部的时间段都不合适可以私信我\n本周如果有特殊情况无法面谈也请私信说明原因\n请同学们直接在群里预约`;
 
@@ -666,7 +680,7 @@ function aClearSlots() {
 
 function aSaveState() {
   localStorage.setItem("a_state", JSON.stringify({
-    aMode, aWeekDate,
+    aModes: [...aModes], aWeekDate,
     days: aDays.map(d => ({open:false, slots:d.slots})),
   }));
 }
@@ -675,11 +689,11 @@ function aRestoreState() {
   const raw = localStorage.getItem("a_state"); if (!raw) return;
   try {
     const s = JSON.parse(raw);
-    if (s.aMode) {
-      aMode = s.aMode;
+    const savedModes = s.aModes || (s.aMode ? [s.aMode] : null);
+    if (savedModes && savedModes.length) {
+      aModes = new Set(savedModes);
       document.querySelectorAll("#a-modeTags .mode-tag").forEach(b => {
-        if (b.textContent === aMode) b.classList.add("active");
-        else b.classList.remove("active");
+        b.classList.toggle("active", aModes.has(b.textContent));
       });
     }
     if (s.aWeekDate) {
