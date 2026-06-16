@@ -205,7 +205,7 @@
     <button class="tab-btn vip-tab" id="tab-print"   onclick="switchTab('print')">🖨️ 打印资料</button>
     <button class="tab-btn bz-tab"  id="tab-checkin" onclick="switchTab('checkin')">✅ 出席打卡</button>
     <button class="tab-btn bz-tab"  id="tab-appt"    onclick="switchTab('appt')">📅 面谈预约</button>
-    <button class="tab-btn bz-tab"  id="tab-report"  onclick="switchTab('report')">🈴 合格速报</button>
+    <button class="tab-btn bz-tab"  id="tab-report"  onclick="switchTab('report')">🎈 合格速报</button>
   </div>
 
   <!-- ══ VIP: 约课预约 ══ -->
@@ -346,15 +346,13 @@
       <input type="text" id="r-major" placeholder="専攻（若无不填写）">
     </div>
 
-    <!-- 科类 -->
+    <!-- 提交成绩 · EJU（可选） -->
     <div class="card">
-      <div class="field-label">科类</div>
+      <div class="field-label">提交成绩 · EJU（可选）</div>
+      <div class="tags-wrap" style="margin-bottom:6px;"><span class="report-tag active" id="r-ejuToggle" onclick="rToggleEju()">提交 EJU 成绩</span></div>
+      <div id="r-eju-body">
+      <div class="r-sub-label">科类</div>
       <div class="tags-wrap" id="r-catTags"></div>
-    </div>
-
-    <!-- 提交成绩 · EJU -->
-    <div class="card">
-      <div class="field-label">提交成绩 · EJU</div>
       <div class="r-sub-label">考试时间</div>
       <div class="tags-wrap" id="r-ejuTags"></div>
       <div class="r-sub-label">日语</div>
@@ -380,6 +378,7 @@
         <div class="r-row"><span class="r-row-label">化学</span><input type="text" id="r-chem" placeholder="分数" inputmode="numeric"></div>
         <div class="r-row"><span class="r-row-label">数学2</span><input type="text" id="r-math-ri" placeholder="分数" inputmode="numeric"></div>
       </div>
+      </div><!-- /r-eju-body -->
     </div>
 
     <!-- 其他成绩 -->
@@ -830,8 +829,15 @@ function aRestoreState() {
 //  合格速报
 // ═══════════════════════════════════════════
 const R_FIELDS = ["r-name","r-univ","r-faculty","r-dept","r-major","r-jp-x","r-jp-y","r-sougou","r-math-bun","r-phys","r-bio","r-chem","r-math-ri","r-eng","r-jlpt","r-other","r-exam","r-admission","r-remark"];
-let rState = {cat:"文科", eju:"6月", mathBun:"", eng:"", jlpt:""};
+let rState = {ejuOn:true, cat:"文科", eju:"6月", mathBun:"", eng:"", jlpt:""};
 let rText = "";
+
+function rToggleEju() {
+  rState.ejuOn = !rState.ejuOn;
+  document.getElementById("r-ejuToggle").classList.toggle("active", rState.ejuOn);
+  document.getElementById("r-eju-body").style.display = rState.ejuOn ? "" : "none";
+  rSaveState();
+}
 
 function rSelectTag(containerId, key, value, btn, allowDeselect) {
   if (rState[key] === value && allowDeselect) {
@@ -859,36 +865,50 @@ function rUpdateCategory() {
 
 function rGenerate() {
   const v = id => document.getElementById(id).value.trim();
+  const blocks = [];
+
+  // 头部
   const name = v("r-name");
   const univ = [v("r-univ"), v("r-faculty"), v("r-dept"), v("r-major")].filter(Boolean).join(" ");
+  const head = [`合格速报🎈 ${name}`];
+  if (univ) head.push(univ);
+  blocks.push(head);
 
-  const lines = [`合格速报🈴️ ${name}`];
-  if (univ) lines.push(univ);
-
-  // 提交成绩 · EJU
-  const sc = [];
-  const jpX = v("r-jp-x"), jpY = v("r-jp-y");
-  if (jpX || jpY) sc.push(`日语：${jpX}${jpY?"+"+jpY+"（記述）":""}`);
-  if (rState.cat === "文科") {
-    const sg = v("r-sougou"); if (sg) sc.push(`総合科目：${sg}`);
-    const mb = v("r-math-bun"); if (mb) sc.push(`${rState.mathBun||"数学"}：${mb}`);
-  } else {
-    const ph=v("r-phys"),bi=v("r-bio"),ch=v("r-chem"),mr=v("r-math-ri");
-    if(ph)sc.push(`物理：${ph}`); if(bi)sc.push(`生物：${bi}`); if(ch)sc.push(`化学：${ch}`); if(mr)sc.push(`数学2：${mr}`);
+  // 汇总行 + 明细
+  const summary = [], detail = [];
+  if (rState.ejuOn) {
+    summary.push(`EJU（${rState.eju}）`);
+    const eju = [`EJU（${rState.eju}）`];
+    const jpX = v("r-jp-x"), jpY = v("r-jp-y");
+    if (jpX || jpY) eju.push(`日语${jpX}${jpY?"+"+jpY:""}`);
+    if (rState.cat === "文科") {
+      const sg = v("r-sougou"); if (sg) eju.push(`総合科目${sg}`);
+      const mb = v("r-math-bun"); if (mb) eju.push(`${rState.mathBun||"数学"} ${mb}`);
+    } else {
+      const ph=v("r-phys"),bi=v("r-bio"),ch=v("r-chem"),mr=v("r-math-ri");
+      if(ph)eju.push(`物理${ph}`); if(bi)eju.push(`生物${bi}`); if(ch)eju.push(`化学${ch}`); if(mr)eju.push(`数学2 ${mr}`);
+    }
+    detail.push(...eju);
   }
-  if (sc.length) lines.push("", `提交成绩：EJU（${rState.eju}）`, ...sc);
+  const eng = v("r-eng");
+  if (rState.eng || eng) { summary.push(rState.eng || "英语"); detail.push([rState.eng||"英语", eng].filter(Boolean).join(" ")); }
+  const jlpt = v("r-jlpt");
+  if (rState.jlpt || jlpt) { summary.push(("JLPT "+rState.jlpt).trim()); detail.push(("JLPT "+[rState.jlpt, jlpt].filter(Boolean).join(" ")).trim()); }
 
-  // 其他成绩
-  const eng = v("r-eng"); if (eng||rState.eng) lines.push(`英语：${[rState.eng, eng].filter(Boolean).join(" ")}`);
-  const jlpt = v("r-jlpt"); if (jlpt||rState.jlpt) lines.push(`JLPT：${[rState.jlpt, jlpt].filter(Boolean).join(" ")}`);
-  const other = v("r-other"); if (other) lines.push(`其他：${other}`);
-  const exam = v("r-exam"); if (exam) lines.push(`考试内容：${exam}`);
+  if (summary.length) blocks.push([`提交成绩：${summary.join(" + ")}`]);
+  if (detail.length) blocks.push(detail);
+
+  // 其他 / 考试内容
+  const extra = [];
+  const other = v("r-other"); if (other) extra.push(`其他：${other}`);
+  const exam = v("r-exam"); if (exam) extra.push(`考试内容：${exam}`);
+  if (extra.length) blocks.push(extra);
 
   // 入試方式 & 备注
-  const adm = v("r-admission"); if (adm) lines.push("", `入試方式：${adm}`);
-  const rem = v("r-remark"); if (rem) lines.push("", `备注：${rem}`);
+  const adm = v("r-admission"); if (adm) blocks.push([`入試方式：${adm}`]);
+  const rem = v("r-remark"); if (rem) blocks.push([`备注：${rem}`]);
 
-  rText = lines.join("\n");
+  rText = blocks.map(b=>b.join("\n")).join("\n\n");
   document.getElementById("r-output").textContent = rText;
   rSaveState();
 }
@@ -897,7 +917,9 @@ async function rCopy(){if(!rText){showToast("请先点击「生成」");return;}
 
 function rClear() {
   R_FIELDS.forEach(id=>document.getElementById(id).value="");
-  rState = {cat:"文科", eju:"6月", mathBun:"", eng:"", jlpt:""};
+  rState = {ejuOn:true, cat:"文科", eju:"6月", mathBun:"", eng:"", jlpt:""};
+  document.getElementById("r-ejuToggle").classList.add("active");
+  document.getElementById("r-eju-body").style.display = "";
   document.querySelectorAll("#r-catTags .report-tag").forEach(b=>b.classList.toggle("active", b.textContent==="文科"));
   document.querySelectorAll("#r-ejuTags .report-tag").forEach(b=>b.classList.toggle("active", b.textContent==="6月"));
   document.querySelectorAll("#r-mathBunTags .report-tag,#r-engTags .report-tag,#r-jlptTags .report-tag").forEach(b=>b.classList.remove("active"));
@@ -922,6 +944,8 @@ function rRestoreState() {
       const sync = (cid,val)=>document.querySelectorAll("#"+cid+" .report-tag").forEach(b=>b.classList.toggle("active", b.textContent===val));
       sync("r-catTags", rState.cat); sync("r-ejuTags", rState.eju);
       sync("r-mathBunTags", rState.mathBun); sync("r-engTags", rState.eng); sync("r-jlptTags", rState.jlpt);
+      document.getElementById("r-ejuToggle").classList.toggle("active", rState.ejuOn);
+      document.getElementById("r-eju-body").style.display = rState.ejuOn ? "" : "none";
       rUpdateCategory();
     }
     if (s.fields) Object.entries(s.fields).forEach(([id,val])=>{const el=document.getElementById(id); if(el) el.value=val;});
