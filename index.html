@@ -83,10 +83,20 @@
   .tags-wrap,.course-tags,.time-tags{display:flex;flex-wrap:wrap;gap:8px;}
   .course-tags{margin-bottom:10px;}
   .time-tags{margin-top:10px;}
-  .tag-btn,.course-tag,.time-tag,.school-tag,.attend-tag,.content-tag,.mode-tag{border:1.5px solid var(--border);border-radius:20px;padding:7px 14px;font-size:13px;cursor:pointer;background:var(--tag-bg);color:var(--sub);transition:all .15s;user-select:none;}
+  .tag-btn,.course-tag,.time-tag,.school-tag,.attend-tag,.content-tag,.mode-tag,.report-tag{border:1.5px solid var(--border);border-radius:20px;padding:7px 14px;font-size:13px;cursor:pointer;background:var(--tag-bg);color:var(--sub);transition:all .15s;user-select:none;}
   .tag-btn:hover,.course-tag:hover,.time-tag:hover,.school-tag:hover,.attend-tag:hover,.content-tag:hover,.mode-tag:hover{border-color:var(--accent);color:var(--accent);}
+  .report-tag:hover{border-color:var(--bz-color);color:var(--bz-color);}
   .tag-btn.active,.course-tag.active,.time-tag.active,.school-tag.active,.attend-tag.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-  .content-tag.active,.mode-tag.active{background:var(--bz-color);border-color:var(--bz-color);color:#fff;}
+  .content-tag.active,.mode-tag.active,.report-tag.active{background:var(--bz-color);border-color:var(--bz-color);color:#fff;}
+
+  /* ── 合格速报 ── */
+  .r-sub-label{font-size:13px;font-weight:700;color:var(--bz-color);margin:14px 0 8px;}
+  .r-sub-label:first-child{margin-top:0;}
+  .r-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+  .r-row:last-child{margin-bottom:0;}
+  .r-row-label{font-size:14px;color:var(--text);min-width:64px;flex-shrink:0;}
+  .r-jp-plus{font-size:16px;color:var(--sub);flex-shrink:0;}
+  .r-hint{font-size:12px;color:var(--sub);margin-bottom:9px;line-height:1.5;}
 
   /* Output */
   .output-box{background:var(--out-bg);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;font-size:15px;line-height:1.85;white-space:pre-wrap;word-break:break-all;min-height:80px;color:var(--text);transition:background .3s;}
@@ -195,6 +205,7 @@
     <button class="tab-btn vip-tab" id="tab-print"   onclick="switchTab('print')">🖨️ 打印资料</button>
     <button class="tab-btn bz-tab"  id="tab-checkin" onclick="switchTab('checkin')">✅ 出席打卡</button>
     <button class="tab-btn bz-tab"  id="tab-appt"    onclick="switchTab('appt')">📅 面谈预约</button>
+    <button class="tab-btn bz-tab"  id="tab-report"  onclick="switchTab('report')">🈴 合格速报</button>
   </div>
 
   <!-- ══ VIP: 约课预约 ══ -->
@@ -322,6 +333,97 @@
 
   </div>
 
+  <!-- ══ 班主任: 合格速报 ══ -->
+  <div class="section" id="sec-report">
+
+    <!-- 基本信息 -->
+    <div class="card">
+      <div class="field-label">基本信息</div>
+      <input type="text" id="r-name" placeholder="名字（必填）" style="margin-bottom:10px;">
+      <input type="text" id="r-univ" placeholder="大学（必填）" style="margin-bottom:10px;">
+      <input type="text" id="r-faculty" placeholder="学部（必填）" style="margin-bottom:10px;">
+      <input type="text" id="r-dept" placeholder="学科（若无不填写）" style="margin-bottom:10px;">
+      <input type="text" id="r-major" placeholder="専攻（若无不填写）">
+    </div>
+
+    <!-- 科类 -->
+    <div class="card">
+      <div class="field-label">科类</div>
+      <div class="tags-wrap" id="r-catTags"></div>
+    </div>
+
+    <!-- 提交成绩 · EJU -->
+    <div class="card">
+      <div class="field-label">提交成绩 · EJU</div>
+      <div class="r-sub-label">考试时间</div>
+      <div class="tags-wrap" id="r-ejuTags"></div>
+      <div class="r-sub-label">日语</div>
+      <div class="r-row">
+        <input type="text" id="r-jp-x" placeholder="读解听解" inputmode="numeric">
+        <span class="r-jp-plus">+</span>
+        <input type="text" id="r-jp-y" placeholder="記述" inputmode="numeric">
+      </div>
+
+      <!-- 文科 -->
+      <div id="r-bunka-fields">
+        <div class="r-sub-label">総合科目</div>
+        <input type="text" id="r-sougou" placeholder="分数" inputmode="numeric">
+        <div class="r-sub-label">数学（选择 数学1 / 数学2）</div>
+        <div class="tags-wrap" id="r-mathBunTags" style="margin-bottom:9px;"></div>
+        <input type="text" id="r-math-bun" placeholder="数学分数" inputmode="numeric">
+      </div>
+
+      <!-- 理科 -->
+      <div id="r-rika-fields" style="display:none;">
+        <div class="r-row"><span class="r-row-label">物理</span><input type="text" id="r-phys" placeholder="分数" inputmode="numeric"></div>
+        <div class="r-row"><span class="r-row-label">生物</span><input type="text" id="r-bio" placeholder="分数" inputmode="numeric"></div>
+        <div class="r-row"><span class="r-row-label">化学</span><input type="text" id="r-chem" placeholder="分数" inputmode="numeric"></div>
+        <div class="r-row"><span class="r-row-label">数学2</span><input type="text" id="r-math-ri" placeholder="分数" inputmode="numeric"></div>
+      </div>
+    </div>
+
+    <!-- 其他成绩 -->
+    <div class="card">
+      <div class="field-label">其他成绩（可选）</div>
+      <div class="r-sub-label">英语</div>
+      <div class="tags-wrap" id="r-engTags" style="margin-bottom:9px;"></div>
+      <input type="text" id="r-eng" placeholder="分数（如 90 / 准1级）">
+      <div class="r-sub-label">JLPT</div>
+      <div class="tags-wrap" id="r-jlptTags" style="margin-bottom:9px;"></div>
+      <input type="text" id="r-jlpt" placeholder="分数（也可手动填写）">
+      <div class="r-sub-label">其他</div>
+      <input type="text" id="r-other" placeholder="自我推荐、校内考…">
+      <div class="r-sub-label">考试内容</div>
+      <input type="text" id="r-exam" placeholder="考试内容（可选）">
+    </div>
+
+    <!-- 入試方式 -->
+    <div class="card">
+      <div class="field-label">入試方式</div>
+      <div class="r-hint">💡 各校要求不同，点击下方标签填入后可自行修改（如再加上「9月入学」等）</div>
+      <div class="tags-wrap" id="r-admTags" style="margin-bottom:10px;"></div>
+      <input type="text" id="r-admission" placeholder="点击上方标签或手动输入">
+    </div>
+
+    <!-- 备注 -->
+    <div class="card">
+      <div class="field-label">备注（可选）</div>
+      <input type="text" id="r-remark" placeholder="其他补充说明…">
+    </div>
+
+    <!-- 输出 -->
+    <div class="card">
+      <div class="field-label">生成速报</div>
+      <div class="output-box" id="r-output" style="min-height:160px;"><span class="output-placeholder">点击「生成」查看结果</span></div>
+      <div class="btn-row">
+        <button class="btn btn-primary-bz" onclick="rGenerate()">生成</button>
+        <button class="btn btn-copy" id="r-copyBtn" onclick="rCopy()">复制</button>
+        <button class="btn btn-clear" onclick="rClear()">清空</button>
+      </div>
+    </div>
+
+  </div>
+
 </div>
 <div class="toast" id="toast"></div>
 
@@ -341,6 +443,13 @@ const CONTENT_TAGS  = ["大学介绍","课上习题","出願","听写","志望�
 const DAYS_JA    = ["月","火","水","木","金","土","日"]; // Mon-Sun index 0-6
 // Quick add times for appointment schedule
 const QUICK_TIMES = ["13:00","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","21:00","21:30"];
+// 合格速报
+const R_CATEGORIES  = ["文科","理科"];
+const R_EJU_MONTHS  = ["6月","11月"];
+const R_MATH_BUN    = ["数学1","数学2"];
+const R_ENG_TYPES   = ["TOEFL","TOEIC","英検"];
+const R_JLPT_LEVELS = ["N1","N2"];
+const R_ADMISSIONS  = ["留学生入試","自己推薦","一般入試","AO入試"];
 
 // ═══════════════════════════════════════════
 //  模式 & Tab
@@ -413,9 +522,18 @@ function init(){
   document.getElementById("a-weekDate").value = todayValue();
   aUpdateWeek();
 
+  // 合格速报
+  R_CATEGORIES.forEach(c=>{const b=mkBtn("report-tag",c,()=>rSelectTag("r-catTags","cat",c,b,false));if(c===rState.cat)b.classList.add("active");document.getElementById("r-catTags").appendChild(b);});
+  R_EJU_MONTHS.forEach(m=>{const b=mkBtn("report-tag",m,()=>rSelectTag("r-ejuTags","eju",m,b,false));if(m===rState.eju)b.classList.add("active");document.getElementById("r-ejuTags").appendChild(b);});
+  R_MATH_BUN.forEach(m=>{const b=mkBtn("report-tag",m,()=>rSelectTag("r-mathBunTags","mathBun",m,b,true));document.getElementById("r-mathBunTags").appendChild(b);});
+  R_ENG_TYPES.forEach(m=>{const b=mkBtn("report-tag",m,()=>rSelectTag("r-engTags","eng",m,b,true));document.getElementById("r-engTags").appendChild(b);});
+  R_JLPT_LEVELS.forEach(m=>{const b=mkBtn("report-tag",m,()=>rSelectTag("r-jlptTags","jlpt",m,b,true));document.getElementById("r-jlptTags").appendChild(b);});
+  R_ADMISSIONS.forEach(m=>{const b=mkBtn("report-tag",m,()=>rPickAdmission(m));document.getElementById("r-admTags").appendChild(b);});
+  rUpdateCategory();
+
   applyTheme(localStorage.getItem("theme")||"light");
   switchMode(localStorage.getItem("activeMode")||"vip");
-  bRestoreState();nRestoreState();pRestoreState();cRestoreState();aRestoreState();
+  bRestoreState();nRestoreState();pRestoreState();cRestoreState();aRestoreState();rRestoreState();
 }
 
 // ═══════════════════════════════════════════
@@ -705,6 +823,108 @@ function aRestoreState() {
       s.days.forEach((d,i) => { aDays[i].slots = d.slots || []; });
       renderDays();
     }
+  } catch {}
+}
+
+// ═══════════════════════════════════════════
+//  合格速报
+// ═══════════════════════════════════════════
+const R_FIELDS = ["r-name","r-univ","r-faculty","r-dept","r-major","r-jp-x","r-jp-y","r-sougou","r-math-bun","r-phys","r-bio","r-chem","r-math-ri","r-eng","r-jlpt","r-other","r-exam","r-admission","r-remark"];
+let rState = {cat:"文科", eju:"6月", mathBun:"", eng:"", jlpt:""};
+let rText = "";
+
+function rSelectTag(containerId, key, value, btn, allowDeselect) {
+  if (rState[key] === value && allowDeselect) {
+    rState[key] = "";
+    btn.classList.remove("active");
+  } else {
+    rState[key] = value;
+    document.querySelectorAll("#"+containerId+" .report-tag").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+  }
+  if (key === "cat") rUpdateCategory();
+  rSaveState();
+}
+
+function rPickAdmission(text) {
+  document.getElementById("r-admission").value = text;
+  rSaveState();
+}
+
+function rUpdateCategory() {
+  const bun = rState.cat === "文科";
+  document.getElementById("r-bunka-fields").style.display = bun ? "" : "none";
+  document.getElementById("r-rika-fields").style.display  = bun ? "none" : "";
+}
+
+function rGenerate() {
+  const v = id => document.getElementById(id).value.trim();
+  const name = v("r-name");
+  const univ = [v("r-univ"), v("r-faculty"), v("r-dept"), v("r-major")].filter(Boolean).join(" ");
+
+  const lines = [`合格速报🈴️ ${name}`];
+  if (univ) lines.push(univ);
+
+  // 提交成绩 · EJU
+  const sc = [];
+  const jpX = v("r-jp-x"), jpY = v("r-jp-y");
+  if (jpX || jpY) sc.push(`日语：${jpX}${jpY?"+"+jpY+"（記述）":""}`);
+  if (rState.cat === "文科") {
+    const sg = v("r-sougou"); if (sg) sc.push(`総合科目：${sg}`);
+    const mb = v("r-math-bun"); if (mb) sc.push(`${rState.mathBun||"数学"}：${mb}`);
+  } else {
+    const ph=v("r-phys"),bi=v("r-bio"),ch=v("r-chem"),mr=v("r-math-ri");
+    if(ph)sc.push(`物理：${ph}`); if(bi)sc.push(`生物：${bi}`); if(ch)sc.push(`化学：${ch}`); if(mr)sc.push(`数学2：${mr}`);
+  }
+  if (sc.length) lines.push("", `提交成绩：EJU（${rState.eju}）`, ...sc);
+
+  // 其他成绩
+  const eng = v("r-eng"); if (eng||rState.eng) lines.push(`英语：${[rState.eng, eng].filter(Boolean).join(" ")}`);
+  const jlpt = v("r-jlpt"); if (jlpt||rState.jlpt) lines.push(`JLPT：${[rState.jlpt, jlpt].filter(Boolean).join(" ")}`);
+  const other = v("r-other"); if (other) lines.push(`其他：${other}`);
+  const exam = v("r-exam"); if (exam) lines.push(`考试内容：${exam}`);
+
+  // 入試方式 & 备注
+  const adm = v("r-admission"); if (adm) lines.push("", `入試方式：${adm}`);
+  const rem = v("r-remark"); if (rem) lines.push("", `备注：${rem}`);
+
+  rText = lines.join("\n");
+  document.getElementById("r-output").textContent = rText;
+  rSaveState();
+}
+
+async function rCopy(){if(!rText){showToast("请先点击「生成」");return;}await doCopy(rText,"r-copyBtn");}
+
+function rClear() {
+  R_FIELDS.forEach(id=>document.getElementById(id).value="");
+  rState = {cat:"文科", eju:"6月", mathBun:"", eng:"", jlpt:""};
+  document.querySelectorAll("#r-catTags .report-tag").forEach(b=>b.classList.toggle("active", b.textContent==="文科"));
+  document.querySelectorAll("#r-ejuTags .report-tag").forEach(b=>b.classList.toggle("active", b.textContent==="6月"));
+  document.querySelectorAll("#r-mathBunTags .report-tag,#r-engTags .report-tag,#r-jlptTags .report-tag").forEach(b=>b.classList.remove("active"));
+  rUpdateCategory();
+  rText="";
+  document.getElementById("r-output").innerHTML='<span class="output-placeholder">点击「生成」查看结果</span>';
+  localStorage.removeItem("r_state");
+  showToast("已清空");
+}
+
+function rSaveState() {
+  const fields = {}; R_FIELDS.forEach(id=>fields[id]=document.getElementById(id).value);
+  localStorage.setItem("r_state", JSON.stringify({rState, fields}));
+}
+
+function rRestoreState() {
+  const raw = localStorage.getItem("r_state"); if(!raw) return;
+  try {
+    const s = JSON.parse(raw);
+    if (s.rState) {
+      rState = Object.assign(rState, s.rState);
+      const sync = (cid,val)=>document.querySelectorAll("#"+cid+" .report-tag").forEach(b=>b.classList.toggle("active", b.textContent===val));
+      sync("r-catTags", rState.cat); sync("r-ejuTags", rState.eju);
+      sync("r-mathBunTags", rState.mathBun); sync("r-engTags", rState.eng); sync("r-jlptTags", rState.jlpt);
+      rUpdateCategory();
+    }
+    if (s.fields) Object.entries(s.fields).forEach(([id,val])=>{const el=document.getElementById(id); if(el) el.value=val;});
   } catch {}
 }
 
