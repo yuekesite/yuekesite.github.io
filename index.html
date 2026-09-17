@@ -169,7 +169,7 @@
   .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--toast-bg);color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;opacity:0;transition:all .25s;pointer-events:none;z-index:999;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-  @media(max-width:400px){h1{font-size:18px;}.btn{font-size:13px;padding:11px 0;}.tab-btn{font-size:11px;}.mode-btn{font-size:13px;}}
+  @media(max-width:400px){h1{font-size:18px;}.btn{font-size:13px;padding:11px 0;}.tab-btn{font-size:11px;padding:9px 2px;}.mode-btn{font-size:13px;}.tab-bar{gap:3px;padding:4px;}}
 
   /* ── 背景浮球 ── */
   .bg-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:-1;filter:blur(24px);}
@@ -206,6 +206,7 @@
     <button class="tab-btn bz-tab"  id="tab-checkin" onclick="switchTab('checkin')">✅ 出席打卡</button>
     <button class="tab-btn bz-tab"  id="tab-appt"    onclick="switchTab('appt')">📅 面谈预约</button>
     <button class="tab-btn bz-tab"  id="tab-report"  onclick="switchTab('report')">🎈 合格速报</button>
+    <button class="tab-btn bz-tab"  id="tab-riyuu"   onclick="switchTab('riyuu')">📝 理由书</button>
   </div>
 
   <!-- ══ VIP: 约课预约 ══ -->
@@ -423,6 +424,70 @@
 
   </div>
 
+  <!-- ══ 班主任: 志愿理由书审核申请 ══ -->
+  <div class="section" id="sec-riyuu">
+
+    <!-- 基本信息 -->
+    <div class="card">
+      <div class="field-label">基本信息</div>
+      <input type="text" id="y-student" placeholder="学生姓名" style="margin-bottom:10px;">
+      <input type="text" id="y-teacher" placeholder="班主任姓名（清空时保留）">
+    </div>
+
+    <!-- 出愿学校学科 -->
+    <div class="card">
+      <div class="field-label">出愿学校学科</div>
+      <input type="text" id="y-univ" placeholder="大学，例：早稲田大学" style="margin-bottom:10px;">
+      <input type="text" id="y-faculty" placeholder="学部，例：政治経済学部" style="margin-bottom:10px;">
+      <input type="text" id="y-dept" placeholder="学科（若无不填写）">
+    </div>
+
+    <!-- 出愿截止日期 -->
+    <div class="card">
+      <div class="field-label" style="display:flex;align-items:center;justify-content:space-between;">出愿截止日期<button type="button" class="lock-btn" id="y-lockBtn" onclick="toggleLock('y')">🔒 锁定日期</button></div>
+      <input type="date" id="y-deadline">
+    </div>
+
+    <!-- 备注 -->
+    <div class="card">
+      <div class="field-label">备注（可选）</div>
+      <input type="text" id="y-remark" placeholder="其他补充说明…">
+    </div>
+
+    <!-- 提交要求提示 -->
+    <div class="card">
+      <div class="field-label">提交要求</div>
+      <div class="r-hint" style="margin-bottom:0;">📄 理由书格式：Word<br>📁 理由书名称：【大学名-学部(学科)-学生姓名】.docx<br>↓ 下方已生成可直接复制的文件名</div>
+    </div>
+
+    <!-- 生成结果 -->
+    <div class="card">
+      <div class="field-label">生成结果</div>
+
+      <div class="output-sub-label">📧 收件邮箱</div>
+      <div class="output-box" id="y-mailOutput" style="min-height:44px;font-size:14px;word-break:break-all;">aofujiunder4@gmail.com</div>
+      <div class="btn-row" style="margin-bottom:16px;"><button class="btn btn-copy" id="y-mailCopyBtn" onclick="copyText(Y_MAIL,'y-mailCopyBtn')">复制邮箱</button></div>
+
+      <div class="output-sub-label">✉️ 邮件标题</div>
+      <div class="output-box" id="y-subjOutput" style="min-height:44px;font-size:14px;word-break:break-all;"><span class="output-placeholder">点击「生成」查看结果</span></div>
+      <div class="btn-row" style="margin-bottom:16px;"><button class="btn btn-copy" id="y-subjCopyBtn" onclick="copyText(ySubject,'y-subjCopyBtn')">复制标题</button></div>
+
+      <div class="output-sub-label">📝 邮件正文</div>
+      <div class="output-box" id="y-bodyOutput"><span class="output-placeholder">点击「生成」查看结果</span></div>
+      <div class="btn-row" style="margin-bottom:16px;"><button class="btn btn-copy" id="y-bodyCopyBtn" onclick="copyText(yBody,'y-bodyCopyBtn')">复制正文</button></div>
+
+      <div class="output-sub-label">📁 理由书文件名（.docx）</div>
+      <div class="output-box" id="y-fnOutput" style="min-height:44px;font-size:14px;word-break:break-all;"><span class="output-placeholder">点击「生成」查看结果</span></div>
+      <div class="btn-row" style="margin-bottom:14px;"><button class="btn btn-copy" id="y-fnCopyBtn" onclick="copyText(yFileName,'y-fnCopyBtn')">复制文件名</button></div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary-bz" onclick="yGenerate()">生成</button>
+        <button class="btn btn-clear" onclick="yClear()">清空</button>
+      </div>
+    </div>
+
+  </div>
+
 </div>
 <div class="toast" id="toast"></div>
 
@@ -495,8 +560,9 @@ function onStartChange(k){if(durSel[k]!==null)document.getElementById(k+"-end").
 const courseSel={b:"",n:"",p:""};
 function selectCourse(k,c,btn){if(courseSel[k]===c){courseSel[k]="";btn.classList.remove("active");}else{courseSel[k]=c;document.querySelectorAll(`#${k}-courseTags .course-tag`).forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.getElementById(k+"-course").value="";}}
 // 日期锁定（b/n/p/c 共用）
-const dateLock={b:false,n:false,p:false,c:false};
-function toggleLock(k){dateLock[k]=!dateLock[k];const btn=document.getElementById(k+"-lockBtn");btn.textContent=(dateLock[k]?"✅":"🔒")+" 锁定日期";btn.className="lock-btn"+(dateLock[k]?(k==="c"?" locked-bz":" locked"):"");}
+const dateLock={b:false,n:false,p:false,c:false,y:false};
+const BZ_LOCK_KEYS=["c","y"]; // 班主任板块用紫色高亮
+function toggleLock(k){dateLock[k]=!dateLock[k];const btn=document.getElementById(k+"-lockBtn");btn.textContent=(dateLock[k]?"✅":"🔒")+" 锁定日期";btn.className="lock-btn"+(dateLock[k]?(BZ_LOCK_KEYS.includes(k)?" locked-bz":" locked"):"");}
 
 // ═══════════════════════════════════════════
 //  初始化
@@ -545,7 +611,9 @@ function init(){
 
   applyTheme(localStorage.getItem("theme")||"light");
   switchMode(localStorage.getItem("activeMode")||"vip");
-  bRestoreState();nRestoreState();pRestoreState();cRestoreState();aRestoreState();rRestoreState();
+  document.getElementById("y-deadline").value=todayValue();
+
+  bRestoreState();nRestoreState();pRestoreState();cRestoreState();aRestoreState();rRestoreState();yRestoreState();
 }
 
 // ═══════════════════════════════════════════
@@ -926,6 +994,60 @@ function rRestoreState() {
       document.getElementById("r-eju-body").style.display = rState.ejuOn ? "" : "none";
       rUpdateCategory();
     }
+    if (s.fields) Object.entries(s.fields).forEach(([id,val])=>{const el=document.getElementById(id); if(el) el.value=val;});
+  } catch {}
+}
+
+// ═══════════════════════════════════════════
+//  志愿理由书审核申请
+// ═══════════════════════════════════════════
+const Y_MAIL = "aofujiunder4@gmail.com";
+const Y_FIELDS = ["y-student","y-teacher","y-univ","y-faculty","y-dept","y-deadline","y-remark"];
+let ySubject="", yBody="", yFileName="";
+
+function fmtDateSlash(s){if(!s)return "";const d=new Date(s+"T00:00:00");return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())}`;}
+
+function yGenerate() {
+  const v = id => document.getElementById(id).value.trim();
+  const student=v("y-student"), univ=v("y-univ"), fac=v("y-faculty"), dept=v("y-dept");
+  const facPart = fac + (dept ? `(${dept})` : "");          // 学部(学科)，无学科时只留学部
+  const school  = [univ, fac, dept].filter(Boolean).join(" ");
+
+  ySubject  = `【${univ} - ${facPart} - ${student}】`;
+  yFileName = `【${univ}-${facPart}-${student}】.docx`;
+  yBody = [
+    `学生姓名：${student}`,
+    `班主任姓名：${v("y-teacher")}`,
+    `出愿学校学科：${school}`,
+    `出愿截止日期：${fmtDateSlash(v("y-deadline"))}`,
+    `备注：${v("y-remark")}`,
+  ].join("\n");
+
+  document.getElementById("y-subjOutput").textContent = ySubject;
+  document.getElementById("y-bodyOutput").textContent = yBody;
+  document.getElementById("y-fnOutput").textContent   = yFileName;
+  ySaveState();
+}
+
+function yClear() {
+  // 班主任姓名不清空（固定是自己）
+  ["y-student","y-univ","y-faculty","y-dept","y-remark"].forEach(id=>document.getElementById(id).value="");
+  if (!dateLock.y) document.getElementById("y-deadline").value = todayValue();
+  ySubject=""; yBody=""; yFileName="";
+  resetOutput("y-subjOutput"); resetOutput("y-bodyOutput"); resetOutput("y-fnOutput");
+  ySaveState();
+  showToast("已清空");
+}
+
+function ySaveState() {
+  const fields={}; Y_FIELDS.forEach(id=>fields[id]=document.getElementById(id).value);
+  localStorage.setItem("y_state", JSON.stringify({fields}));
+}
+
+function yRestoreState() {
+  const raw = localStorage.getItem("y_state"); if(!raw) return;
+  try {
+    const s = JSON.parse(raw);
     if (s.fields) Object.entries(s.fields).forEach(([id,val])=>{const el=document.getElementById(id); if(el) el.value=val;});
   } catch {}
 }
